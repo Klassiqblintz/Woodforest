@@ -184,6 +184,11 @@
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 1.5rem;
+            min-height: 200px !important;
+        }
+        /* Debug: ensure visibility */
+        .dashboard-grid, .dashboard-main, .dashboard-right, .card, .balance-summary {
+            visibility: visible !important;
         }
         .dashboard-main { display: flex; flex-direction: column; gap: 1.25rem; }
         .dashboard-top {
@@ -1694,8 +1699,10 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Legacy sub-views continue here... -->
+        <!-- Legacy sub-views -->
+        <div class="sub-view" id="legacy-account-summary" style="display:none;"></div>
             <!-- Default: Account Summary -->
             <!-- Default: Account Summary -->
             <div class="sub-view active" id="sub-acct-summary" style="display:none;">
