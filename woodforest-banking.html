@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Online &amp; Mobile Banking - Woodforest National Bank</title>
+    <meta name="description" content="Access your account using Online Banking or use the Woodforest Mobile Banking App to bank on the go!" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --theme-green: #AED581;
+            --theme-green2: #559e3c;
+            --theme-blue: #133B65;
+            --theme-header-footer-bg: #212529;
+            --theme-body-color: #222;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--theme-body-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ===== HEADER / NAV ===== */
+        .site-header {
+            background-color: var(--theme-header-footer-bg);
+            padding: 12px 0;
+        }
+        .site-header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-header .logo img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+        .site-header .nav-links {
+            display: flex;
+            gap: 0;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .site-header .nav-links li {
+            position: relative;
+        }
+        .site-header .nav-links > li > a,
+        .site-header .nav-links > li > .dropdown-toggle {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 400;
+            padding: 18px 14px;
+            display: block;
+            transition: color 0.2s, background-color 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .site-header .nav-links > li:hover > a,
+        .site-header .nav-links > li:hover > .dropdown-toggle {
+            color: white;
+        }
+        .site-header .nav-links > li > a:hover,
+        .site-header .nav-links > li > .dropdown-toggle:hover {
+            color: white;
+        }
+        .site-header .nav-links .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 0.7rem;
+            vertical-align: middle;
+            border: none;
+            background: none;
+            font-family: bootstrap-icons;
+        }
+        .site-header .nav-links .dropdown-toggle::after {
+            content: "\f282"; /* bootstrap-icons chevron-down */
+        }
+        /* Dropdown menus */
+        .site-header .nav-links .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 300px;
+            max-width: 360px;
+            background: white;
+            border: none;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+            padding: 0;
+            margin: 0;
+            display: none;
+            z-index: 1000;
+        }
+        .site-header .nav-links li:hover > .dropdown-menu {
+            display: block;
+        }
+        .site-header .nav-links .dropdown-menu a {
+            display: block;
+            padding: 7px 16px;
+            color: #222;
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 400;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.15s;
+        }
+        .site-header .nav-links .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+        .site-header .nav-links .dropdown-menu a:hover {
+            background-color: #f8f9fa;
+            color: var(--theme-green2);
+            padding-left: 22px;
+        }
+        /* Sub-sub-dropdowns */
+        .site-header .nav-links .dropdown-submenu {
+            position: relative;
+        }
+        .site-header .nav-links .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-left: -1px;
+            margin-top: -3px;
+            border-radius: 0 6px 6px 0;
+        }
+        .site-header .nav-links .dropdown-submenu > a::after {
+            content: "\f285"; /* bootstrap-icons chevron-right */
+            float: right;
+            font-size: 0.85rem;
+            margin-top: 1px;
+            opacity: 0.4;
+            font-family: bootstrap-icons;
+        }
+        .site-header .nav-links .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+        /* Dropdown section headers */
+        .dropdown-section-header {
+            display: block;
+            padding: 7px 16px 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--theme-green2);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid #e8e8e8;
+            margin-top: 4px;
+        }
+        .dropdown-section-header:first-child {
+            margin-top: 0;
+        }
+        .dropdown-section-link {
+            display: block;
+            padding: 5px 16px 3px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--theme-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .dropdown-section-link:hover {
+            color: var(--theme-green2);
+        }
+        /* Close the header gap when dropdowns are present */
+        .site-header .nav-links > li > .dropdown-menu {
+            margin-top: 0;
+        }
+        .site-header .login-btn {
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg) !important;
+            border: none;
+            padding: 8px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .site-header .login-btn:hover {
+            background-color: var(--theme-green2);
+            color: white !important;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== WYWA BANNER ===== */
+        .wywa-banner {
+            background-color: var(--theme-header-footer-bg);
+            padding: 1rem 0;
+            color: white;
+        }
+        .wywa-banner h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .wywa-banner .tagline {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.85);
+        }
+        .wywa-banner .btn-enroll {
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+            border: none;
+            padding: 10px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        .wywa-banner .btn-enroll:hover {
+            background-color: var(--theme-green2);
+            color: white;
+        }
+
+        /* ===== FEATURES HEADING ===== */
+        .section-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        .section-intro {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* ===== ONLINE BANKING FEATURES (horizontal scroll) ===== */
+        .features-scroll {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 1rem 0 2rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .features-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .features-scroll::-webkit-scrollbar-thumb {
+            background: var(--theme-green2);
+            border-radius: 3px;
+        }
+        .feature-card {
+            min-width: 280px;
+            max-width: 280px;
+            scroll-snap-align: start;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+        }
+        .feature-card img {
+            height: 64px;
+            width: auto;
+            margin-bottom: 0.75rem;
+            object-fit: contain;
+        }
+        .feature-card h5 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        .feature-card p {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+            line-height: 1.45;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        .feature-card a {
+            color: var(--theme-green2);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+        .feature-card a:hover {
+            text-decoration: underline;
+        }
+
+        .feature-divider {
+            border-top: 1px solid #ddd;
+            margin: 2.5rem 0;
+        }
+
+        /* ===== ENROLLMENT SECTION ===== */
+        .enrollment-section {
+            margin-top: 3rem;
+            display: flex;
+            gap: 2rem;
+            align-items: stretch;
+        }
+        .enrollment-section img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .enrollment-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--theme-header-footer-bg);
+            margin-bottom: 1rem;
+        }
+        .enrollment-content p {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .enrollment-content .btn-enroll-lg {
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+            border: none;
+            padding: 12px 36px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.2s;
+        }
+        .enrollment-content .btn-enroll-lg:hover {
+            background-color: var(--theme-green2);
+            color: white;
+        }
+        .enrollment-content .btn-outline-green {
+            background-color: white;
+            color: var(--theme-blue);
+            border: 2px solid var(--theme-green2);
+            padding: 12px 36px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+        .enrollment-content .btn-outline-green:hover {
+            background-color: var(--theme-green2);
+            color: white;
+            border-color: var(--theme-green2);
+        }
+
+        .enroll-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--theme-header-footer-bg);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== SECURITY CARDS ===== */
+        .security-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1.5rem;
+        }
+        .security-card {
+            margin-bottom: 1.5rem;
+        }
+        .security-card img {
+            height: 64px;
+            width: auto;
+            margin-bottom: 0.5rem;
+            object-fit: contain;
+        }
+        .security-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.4rem;
+        }
+        .security-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+            line-height: 1.5;
+        }
+        .security-card a {
+            color: var(--theme-green2);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .security-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== MOBILE APP SECTION (white bg) ===== */
+        .mobile-app-section {
+            background-color: white;
+            padding: 3rem 0;
+            color: var(--theme-body-color);
+            margin-top: 3rem;
+        }
+        .mobile-app-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.5rem;
+        }
+        .mobile-app-section > .container > p {
+            font-size: 1.05rem;
+            color: var(--theme-body-color);
+            margin-bottom: 2rem;
+        }
+
+        /* Mobile app slider */
+        .mobile-app-slider {
+            position: relative;
+            padding: 0 80px;
+        }
+        .mobile-app-slider .swiper {
+            overflow: hidden;
+        }
+        .mobile-app-slider .swiper-slide {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 1rem 0.5rem;
+        }
+        .mobile-app-slider .phone-img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        .mobile-app-slider .slide-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.3rem;
+        }
+        .mobile-app-slider .slide-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+            max-width: 300px;
+        }
+        .mobile-app-slider .swiper-button-next,
+        .mobile-app-slider .swiper-button-prev {
+            width: 42px;
+            height: 42px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+        }
+        .mobile-app-slider .swiper-button-next::after,
+        .mobile-app-slider .swiper-button-prev::after {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--theme-green2);
+        }
+        .mobile-app-slider .swiper-button-next:hover,
+        .mobile-app-slider .swiper-button-prev:hover {
+            background: var(--theme-green);
+        }
+        .mobile-app-slider .swiper-button-next:hover::after,
+        .mobile-app-slider .swiper-button-prev:hover::after {
+            color: white;
+        }
+        .mobile-app-slider .swiper-button-prev { left: 5px; }
+        .mobile-app-slider .swiper-button-next { right: 5px; }
+        .mobile-app-slider .swiper-pagination {
+            position: static;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 1.5rem 0 0.5rem;
+        }
+        .mobile-app-slider .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: var(--theme-green2);
+            opacity: 0.35;
+        }
+        .mobile-app-slider .swiper-pagination-bullet-active {
+            opacity: 1;
+        }
+        .app-badge { height: 45px; }
+
+        .app-links-text {
+            font-size: 0.95rem;
+            color: #555;
+            margin-top: 1rem;
+        }
+
+        /* ===== SERVICES HIGHLIGHTS ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+        .service-highlight {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .service-highlight img {
+            height: 64px;
+            width: auto;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .service-highlight h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.3rem;
+        }
+        .service-highlight p {
+            font-size: 0.88rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+        .service-highlight a {
+            color: var(--theme-green2);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+        .service-highlight a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== ESTATEMENTS SECTION ===== */
+        .e-statements-section {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        .e-statements-section h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1rem;
+        }
+        .e-statements-section p {
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .e-statements-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+        .e-statements-section ul li {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 0.5rem;
+            padding-left: 1.25rem;
+            position: relative;
+            line-height: 1.5;
+        }
+        .e-statements-section ul li::before {
+            content: "–";
+            position: absolute;
+            left: 0.25rem;
+            font-weight: 700;
+            color: var(--theme-green2);
+        }
+        .e-statements-section a {
+            color: var(--theme-green2);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .e-statements-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== FAQ ACCORDION ===== */
+        .faq-section {
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+        .faq-section h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1rem;
+        }
+        .faq-section .accordion-item {
+            border: none;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0;
+        }
+        .accordion-button {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--theme-blue);
+            background: white;
+            border-radius: 0 !important;
+            padding: 0.75rem 0;
+        }
+        .accordion-button:not(.collapsed) {
+            background: white;
+            color: var(--theme-green2);
+            box-shadow: none;
+        }
+        .accordion-button::after {
+            color: var(--theme-blue);
+        }
+        .accordion-button:not(.collapsed)::after {
+            color: var(--theme-green2);
+        }
+        .accordion-body {
+            color: #444;
+            font-size: 0.93rem;
+            padding: 0 0 1rem;
+            line-height: 1.6;
+        }
+        .accordion-body a {
+            color: var(--theme-green2);
+            text-decoration: none;
+        }
+        .accordion-body a:hover {
+            text-decoration: underline;
+        }
+        .accordion-body ul {
+            margin: 0.5rem 0;
+        }
+        .accordion-body ul li {
+            margin-bottom: 0.25rem;
+        }
+        .faq-group-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #666;
+            margin: 2rem 0 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 2.5rem 0;
+            font-size: 0.85rem;
+        }
+        .site-footer a { color: var(--theme-green); text-decoration: none; }
+        .site-footer h6 { color: white; font-size: 0.95rem; margin-bottom: 0.75rem; }
+        .site-footer ul { list-style: none; padding: 0; margin: 0; }
+        .site-footer ul li { margin-bottom: 0.35rem; }
+        .site-footer ul li a { color: #ccc; }
+        .site-footer ul li a:hover { color: var(--theme-green); }
+        .footer-top { border-bottom: 1px solid #333; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+        .footer-bottom { border-top: 1px solid #333; padding-top: 1rem; text-align: center; color: #888; font-size: 0.8rem; }
+
+        /* Mobile menu toggle */
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .mobile-menu-btn span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background: white;
+            margin: 6px 0;
+            border-radius: 1px;
+        }
+
+        /* Mobile / desktop slide-in menu panel */
+        .offcanvas-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 9999;
+            display: none;
+        }
+        .offcanvas-overlay.active {
+            display: block;
+        }
+        .offcanvas-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 320px;
+            max-width: 85vw;
+            background: white;
+            z-index: 10000;
+            display: none;
+            overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+        }
+        .offcanvas-panel.active {
+            display: block;
+        }
+        .offcanvas-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #212529;
+            color: white;
+        }
+        .offcanvas-header .offcanvas-logo img {
+            height: 38px;
+            width: auto;
+        }
+        .offcanvas-header .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .offcanvas-body {
+            padding: 0;
+        }
+        .offcanvas-body a,
+        .offcanvas-body button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 20px;
+            color: #222;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            border-bottom: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .offcanvas-body a:hover,
+        .offcanvas-body button:hover {
+            background-color: #f8f9fa;
+            color: var(--theme-green2);
+        }
+        .offcanvas-body .offcanvas-section-title {
+            display: block;
+            padding: 14px 20px 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--theme-green2);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid #e8e8e8;
+            margin-top: 6px;
+            cursor: default;
+        }
+        .offcanvas-body .offcanvas-section-title:first-child {
+            margin-top: 0;
+        }
+        .offcanvas-body .offcanvas-link-sub {
+            padding-left: 36px;
+            font-size: 0.88rem;
+            font-weight: 400;
+            color: #444;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .offcanvas-body .offcanvas-link-sub:hover {
+            padding-left: 42px;
+            background-color: #f8f9fa;
+            color: var(--theme-green2);
+        }
+        .offcanvas-body .offcanvas-cta {
+            background-color: var(--theme-green);
+            color: #222;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: none;
+            margin: 0;
+        }
+        .offcanvas-body .offcanvas-cta:hover {
+            background-color: var(--theme-green2);
+            color: white;
+        }
+
+        @media (max-width: 991.98px) {
+            .enrollment-section {
+                flex-direction: column;
+            }
+            .enrollment-section img {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="site-header">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/" class="logo">
+                    <img src="https://www.woodforest.com/media/xijhunfv/wnb-logo-light.png" alt="Woodforest National Bank" />
+                </a>
+                <ul class="nav-links d-none d-md-flex">
+                    <li>
+                        <a href="/personal/">Personal</a>
+                        <div class="dropdown-menu">
+                            <a href="/personal/checking/">Checking</a>
+                            <a href="/personal/savings/">Savings</a>
+                            <a href="/personal/loans/">Loans</a>
+                            <a href="/personal/debit-cards/">Debit Cards</a>
+                            <a href="/personal/online-mobile-banking/">Online &amp; Mobile Banking</a>
+                            <a href="/personal/other-services/">Other Services</a>
+                            <a href="/personal/resources/">Resources</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/small-business/">Small Business</a>
+                        <div class="dropdown-menu">
+                            <a href="/small-business/checking/">Checking</a>
+                            <a href="/small-business/savings/">Savings</a>
+                            <a href="/small-business/loans/">Loans</a>
+                            <a href="/small-business/debit-cards/">Debit Cards</a>
+                            <a href="/small-business/other-services/">Other Services</a>
+                            <a href="/small-business/resources/">Resources</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/commercial/">Commercial</a>
+                        <div class="dropdown-menu">
+                            <a href="/commercial/loans-financing/">Loans &amp; Financing</a>
+                            <a href="/commercial/industry-solutions/">Industry Solutions</a>
+                            <a href="/commercial/treasury-management/">Treasury Management</a>
+                            <a href="/commercial/merchant-services/">Merchant Services</a>
+                            <a href="/commercial/wealth-management/">Wealth Management</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/woodforest-cares/">Woodforest Cares</a>
+                        <div class="dropdown-menu">
+                            <a href="/woodforest-cares/cra-community-development/">CRA &amp; Community Development</a>
+                            <a href="/woodforest-cares/community-support/">Community Support</a>
+                            <a href="/woodforest-cares/woodforest-u/">Woodforest U</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/about-us/">About Us</a>
+                        <div class="dropdown-menu">
+                            <a href="/about-us/press-room/">Press Room</a>
+                            <a href="/about-us/contact-us/">Contact Us</a>
+                            <a href="/about-us/privacy-security/">Privacy &amp; Security</a>
+                            <a href="/about-us/careers/">Careers</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/woodforest-banking-login.html" class="login-btn" onclick="window.location.replace('/woodforest-banking-login.html');return false;">Log in</a>
+                        <div class="dropdown-menu">
+                            <span class="dropdown-section-header">Login</span>
+                            <a href="/woodforest-banking-login.html" onclick="window.location.replace('/woodforest-banking-login.html');return false;">Online Banking</a>
+                            <a href="#">e-Remitt Lockbox</a>
+                            <a href="#">One Card</a>
+                            <a href="#">Positive Pay</a>
+                            <a href="#">Remote Deposit</a>
+                            <a href="#">WNB Commercial Lockbox</a>
+                            <a href="#">WNB Treasury Manager</a>
+                            <a href="#">myBusiness Online</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/es/personal/banca-en-linea-y-movil/" style="color:rgba(255,255,255,0.75); font-size:0.88rem;">Español</a>
+                    </li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- OFFCANVAS MENU PANEL -->
+    <div class="offcanvas-overlay" id="offcanvasOverlay"></div>
+    <div class="offcanvas-panel" id="offcanvasPanel">
+        <div class="offcanvas-header">
+            <a href="/" class="offcanvas-logo">
+                <img src="https://www.woodforest.com/media/xijhunfv/wnb-logo-light.png" alt="Woodforest National Bank" />
+            </a>
+            <button class="close-btn" id="closeOffcanvas" aria-label="Close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="offcanvas-body">
+            <a href="/personal/" class="offcanvas-nav-item">Personal</a>
+            <a href="/personal/checking/" class="offcanvas-link-sub">Checking</a>
+            <a href="/personal/savings/" class="offcanvas-link-sub">Savings</a>
+            <a href="/personal/loans/" class="offcanvas-link-sub">Loans</a>
+            <a href="/personal/debit-cards/" class="offcanvas-link-sub">Debit Cards</a>
+            <a href="/personal/online-mobile-banking/" class="offcanvas-link-sub">Online &amp; Mobile Banking</a>
+            <a href="/personal/other-services/" class="offcanvas-link-sub">Other Services</a>
+            <a href="/personal/resources/" class="offcanvas-link-sub">Resources</a>
+
+            <a href="/small-business/" class="offcanvas-nav-item">Small Business</a>
+            <a href="/small-business/checking/" class="offcanvas-link-sub">Checking</a>
+            <a href="/small-business/savings/" class="offcanvas-link-sub">Savings</a>
+            <a href="/small-business/loans/" class="offcanvas-link-sub">Loans</a>
+            <a href="/small-business/debit-cards/" class="offcanvas-link-sub">Debit Cards</a>
+            <a href="/small-business/other-services/" class="offcanvas-link-sub">Other Services</a>
+            <a href="/small-business/resources/" class="offcanvas-link-sub">Resources</a>
+
+            <a href="/commercial/" class="offcanvas-nav-item">Commercial</a>
+            <a href="/commercial/loans-financing/" class="offcanvas-link-sub">Loans &amp; Financing</a>
+            <a href="/commercial/industry-solutions/" class="offcanvas-link-sub">Industry Solutions</a>
+            <a href="/commercial/treasury-management/" class="offcanvas-link-sub">Treasury Management</a>
+            <a href="/commercial/merchant-services/" class="offcanvas-link-sub">Merchant Services</a>
+            <a href="/commercial/wealth-management/" class="offcanvas-link-sub">Wealth Management</a>
+
+            <a href="/woodforest-cares/" class="offcanvas-nav-item">Woodforest Cares</a>
+            <a href="/woodforest-cares/cra-community-development/" class="offcanvas-link-sub">CRA &amp; Community Development</a>
+            <a href="/woodforest-cares/community-support/" class="offcanvas-link-sub">Community Support</a>
+            <a href="/woodforest-cares/woodforest-u/" class="offcanvas-link-sub">Woodforest U</a>
+
+            <a href="/about-us/" class="offcanvas-nav-item">About Us</a>
+            <a href="/about-us/press-room/" class="offcanvas-link-sub">Press Room</a>
+            <a href="/about-us/contact-us/" class="offcanvas-link-sub">Contact Us</a>
+            <a href="/about-us/privacy-security/" class="offcanvas-link-sub">Privacy &amp; Security</a>
+            <a href="/about-us/careers/" class="offcanvas-link-sub">Careers</a>
+
+            <a href="/about-us/contact-us/locations/" class="offcanvas-nav-item">Locations</a>
+            <a href="/about-us/contact-us/" class="offcanvas-nav-item">Contact Us</a>
+            <a href="/about-us/careers/" class="offcanvas-nav-item">Careers</a>
+
+            <a href="/es/personal/banca-en-linea-y-movil/" class="offcanvas-nav-item">Español</a>
+
+            <a href="/woodforest-banking-login.html" class="offcanvas-cta" onclick="window.location.replace('/woodforest-banking-login.html');return false;">Log in to Online Banking</a>
+        </div>
+    </div>
+
+    <!-- HERO IMAGE (full-width banner) -->
+    <div class="hero-section">
+        <img src="https://www.woodforest.com/media/uwghqviy/online-mobile-banking_hero.jpg" alt="Online & Mobile Banking" />
+    </div>
+
+    <!-- WYWA BANNER -->
+    <div class="wywa-banner">
+        <div class="container-lg px-sm-4 px-lg-0" style="text-align:center;">
+            <p style="font-size:0.95rem; color:rgba(255,255,255,0.8); margin-bottom:0.25rem;">Online &amp; Mobile Banking</p>
+            <h1>Woodforest Where You Are!</h1>
+            <p class="tagline">Access your account using Online Banking or use the Woodforest Mobile Banking App to bank on the go.<sup style="font-size:0.7em; color:var(--theme-green);">*</sup></p>
+            <a href="/woodforest-banking-login.html" class="btn-enroll" style="display:inline-block;" onclick="window.location.replace('/woodforest-banking-login.html');return false;">Log in to Online Banking</a>
+        </div>
+    </div>
+
+    <!-- ONLINE BANKING FEATURES -->
+    <div class="container-lg px-sm-4 px-lg-0" style="text-align:center;">
+        <h2 class="section-heading">Online Banking Features</h2>
+        <p class="section-intro">Woodforest Online Banking and Mobile Banking App<sup style="font-size:0.7em; color:var(--theme-green2);">*</sup> provide convenient and secure access to your Woodforest accounts from home, work, or wherever an internet connection is available.<sup style="font-size:0.7em; color:var(--theme-green2);">*</sup></p>
+
+        <div class="features-scroll">
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/ps0mcet5/ic_cash_70.png" alt="" />
+                <h5>Account Activity</h5>
+                <p>View current and past statements, check current transactions, view check images, and more.</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/ybsl23en/ic_transfers_70.png" alt="" />
+                <h5>Transfers</h5>
+                <p>Move money to/from your eligible Woodforest accounts. You can create one-time transfers, recurring transfers, and future transfers.</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/d0bepl2i/ic_lock_70.png" alt="" />
+                <h5>Account &amp; Security Alerts</h5>
+                <p>Receive alerts by email, SMS, or push notification. Set your own criteria for balance alerts, transaction alerts, debit card alerts, and more.</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/u10hnayv/ic_estatement_70.png" alt="" />
+                <h5>eStatements</h5>
+                <p>Receive your statements electronically by enrolling in eStatements.</p>
+                <a href="/personal/online-mobile-banking/#e-statements">Learn More</a>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/v3qip5u5/ic_customer-care_70.png" alt="" />
+                <h5>Service Center</h5>
+                <p>Personalize your account names. Re-order checks. Order a Woodforest Debit Card. Manage eStatements. Plus more!</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/zfab4xe0/ic_loans_70.png" alt="" />
+                <h5>Quicken / Quickbooks</h5>
+                <p>Download your account transactions in a few easy clicks.</p>
+                <a href="/personal/online-mobile-banking/quicken-quickbooks/">Learn More</a>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/jxkembny/ic_mail_70.png" alt="" />
+                <h5>Daily Email Notifications</h5>
+                <p>Provide your email at account opening to automatically receive a daily statement of transaction activity, account balances, and more.</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/p54he3tu/ic_password-protection_70.png" alt="" />
+                <h5>Security</h5>
+                <p>Security features to help protect your online sessions such as Second Factor Authentication and Limited Access Passwords.</p>
+                <a href="/personal/online-mobile-banking/online-mobile-banking-security/">Learn More</a>
+            </div>
+            <div class="feature-card">
+                <img src="https://www.woodforest.com/media/0gohtog2/ic_receipt_70.png" alt="" />
+                <h5>Bill Pay</h5>
+                <p>Set up e-bills for recognized payees, payment reminders, and automatic recurring payments.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="container-lg px-sm-4 px-lg-0">
+        <div class="feature-divider"></div>
+    </div>
+
+    <!-- ENROLLMENT SECTION -->
+    <div class="container-lg px-sm-4 px-lg-0">
+        <p style="font-size:0.9rem; color:#666; margin-top:2rem; margin-bottom:0.25rem;">Account(s) opened at a branch today are accessible online by tomorrow. Account(s) opened online are accessible for Online Banking immediately.</p>
+        <p style="font-size:0.9rem; color:#666; margin-bottom:1.5rem;">Please note, if you are a <strong>Small Business customer</strong and would like to enroll your business in Online Banking, please&nbsp;contact us toll-free at <a href="tel:18779687962" style="color:var(--theme-green2);">1-877-968-7962</a> for assistance.</p>
+
+        <div class="enrollment-section">
+            <img src="https://www.woodforest.com/media/kstinso5/online-mobile-banking_enroll.jpg" alt="Enroll in Online Services" />
+            <div class="enrollment-content">
+                <h2>Enroll in Online Services Today!</h2>
+                <p>Access your account online or on a mobile device&nbsp;by enrolling in Woodforest's Online Services.<sup style="font-size:0.7em; color:var(--theme-green2);">*</sup></p>
+                <a href="/woodforest-banking-enroll.html" class="btn-enroll-lg">Enroll Now</a>
+                <a href="/enrollment/" class="btn-outline-green">Learn More</a>
+                <p class="enroll-subtitle">Ready to Enroll? If you've already opened an account you can use your enrollment code or account information to enroll in Online Services.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BANKING PRIVACY AND SECURITY -->
+    <div class="container-lg px-sm-4 px-lg-0">
+        <h2 class="section-heading">Banking Privacy and Security</h2>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="security-card">
+                    <img src="https://www.woodforest.com/media/atuf2iye/ic_wifisecurity_70.png" alt="" />
+                    <h5>Public WiFi can leave you exposed.</h5>
+                    <p>Many public WiFi hot spots lack any kind of security making it easier for scammers to listen&nbsp;in on your activity.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="security-card">
+                    <img src="https://www.woodforest.com/media/p54he3tu/ic_password-protection_70.png" alt="" />
+                    <h5>Passwords are your first line of defense.</h5>
+                    <p>Using a complex and random password is the easiest way to protect your information, which&nbsp;makes it harder for thieves to guess.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="security-card">
+                    <img src="https://www.woodforest.com/media/jxkembny/ic_mail_70.png" alt="" />
+                    <h5>Be aware of Phishing Techniques.</h5>
+                    <p>Phishing is when scammers call or send an email pretending to be a reputable company to&nbsp;trick you into giving them personal information.</p>
+                    <a href="/about-us/privacy-security/">Learn More About Privacy and Security</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BANKING ON THE GO -->
+    <div class="mobile-app-section">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <h2 style="margin-bottom:0.5rem;">Banking On The Go</h2>
+            <p>Bank anytime, anywhere with our Mobile Banking App.<sup style="font-size:0.7em; color:var(--theme-green2);">*</sup></p>
+
+            <!-- Swiper slider -->
+            <div class="mobile-app-slider">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="https://www.woodforest.com/media/0bsjrst1/manage-your-account.jpg" alt="Manage Your Accounts" class="phone-img" />
+                            <h5 class="slide-title">Manage Your Accounts</h5>
+                            <p class="slide-desc">View balances, transactions, eStatements, set up account alerts, and more!</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://www.woodforest.com/media/0dsj5kgk/pay-your-bills.jpg" alt="Pay Your Bills" class="phone-img" />
+                            <h5 class="slide-title">Pay Your Bills</h5>
+                            <p class="slide-desc">Pay your bills, view payment history, and more.</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://www.woodforest.com/media/m5fj2cko/mobile-deposit.jpg" alt="Mobile Deposit" class="phone-img" />
+                            <h5 class="slide-title">Mobile Deposit</h5>
+                            <p class="slide-desc">Deposit checks at your convenience using your mobile phone! It's as easy as taking a photo!</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://www.woodforest.com/media/igzds2js/debit-card-management.jpg" alt="Debit Card Management" class="phone-img" />
+                            <h5 class="slide-title">Debit Card Management</h5>
+                            <p class="slide-desc">Control when, where, and how your Woodforest Debit Card is being used.</p>
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <p style="margin-top:2.5rem; margin-bottom:1rem; font-size:1rem; color:var(--theme-body-color);">Ready to start banking on the go? Download the Woodforest Mobile Banking App today!<sup style="font-size:0.7em; color:var(--theme-green2);">*</sup><br></p>
+            <div class="d-flex gap-3 mb-4 justify-content-center">
+                <a href="#"><img src="https://www.woodforest.com/media/tmvp0uzi/itunesstore.png" alt="Download on the App Store" style="height:45px;" /></a>
+                <a href="#"><img src="https://www.woodforest.com/media/c2plp05s/googlebadge.png" alt="Get it on Google Play" style="height:45px;" /></a>
+            </div>
+            <p style="font-size:0.95rem; color:#555;">You must be enrolled in Woodforest Online Banking to access your account on our Mobile Banking App.<sup style="font-size:0.7em; color:var(--theme-green2);">*</sup></p>
+        </div>
+    </div>
+
+    <!-- SERVICES HIGHLIGHTS -->
+    <div class="container-lg px-sm-4 px-lg-0">
+        <div class="services-grid">
+            <div class="service-highlight">
+                <img src="https://www.woodforest.com/media/33ubydit/zelle-logo_tile-message.png" alt="Zelle" />
+                <div>
+                    <h5>Zelle<sup style="font-size:0.65em;">&reg;</sup></h5>
+                    <p>Zelle<sup style="font-size:0.65em;">&reg;</sup> provides a convenient way to send and receive money with friends, family and others you trust.</p>
+                    <a href="/personal/online-mobile-banking/transfer-and-pay/zelle/">Send Money</a>
+                </div>
+            </div>
+            <div class="service-highlight">
+                <img src="https://www.woodforest.com/media/r4vjravx/ic_wallet_70.png" alt="Transfer and Pay" />
+                <div>
+                    <h5>Transfer and Pay</h5>
+                    <p>Make a transfer between eligible accounts and schedule payments or&nbsp;view payment history.</p>
+                    <a href="/personal/online-mobile-banking/transfer-and-pay/">Learn More</a>
+                </div>
+            </div>
+            <div class="service-highlight">
+                <img src="https://www.woodforest.com/media/s5rhq0bk/wu-logo.png" alt="Western Union" />
+                <div>
+                    <h5>Western Union Money Transfers</h5>
+                    <p>Send and Receive Money Transfers directly to/from eligible Woodforest accounts.</p>
+                    <a href="/personal/online-mobile-banking/transfer-and-pay/western-union-money-transfers/">Learn More</a>
+                </div>
+            </div>
+            <div class="service-highlight">
+                <img src="https://www.woodforest.com/media/uafbahh0/ic_checking-account_70.png" alt="Mobile Deposit" />
+                <div>
+                    <h5>Mobile Deposit</h5>
+                    <p>Making deposits from your phone is a snap with our Mobile Banking App.<sup style="font-size:0.65em; color:var(--theme-green2);">*</sup></p>
+                    <a href="/personal/online-mobile-banking/mobile-deposit/">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESTATEMENTS SECTION -->
+    <div class="container-lg px-sm-4 px-lg-0">
+        <div class="e-statements-section">
+            <h3>Go Paperless with eStatements!</h3>
+            <p>Enjoy the convenience and security of receiving your bank statement online with eStatements, one of the many benefits of Woodforest Online Services! Enrolling in Online Services and signing up for eStatements is quick and easy. When your eStatement is available, you will receive an email notification sent to the email address you designate. Simply log in to Online Services to view or download your eStatement(s)&nbsp;from the account(s) you select.</p>
+            <ul>
+                <li>Eliminate cumbersome paper statements received in the mail, which means you no longer need to file&nbsp;or shred paper statements.</li>
+                <li>Be confident that your electronic statements are safe and secure, increasing protection against identity theft and eliminating them from being taken from your mailbox or delivered to the&nbsp;wrong address.</li>
+                <li>Have the convenience of viewing your statements days before you would receive them in the mail. Plus you can view them from your computer or a mobile device anytime, anywhere you have&nbsp;internet access.</li>
+                <li>Save valuable resources by reducing the amount of paper required to produce paper statements.</li>
+            </ul>
+            <p>To enroll, log into <a href="woodforest-banking-login.html" onclick="window.location.replace('/woodforest-banking-login.html');return false;">Woodforest Online Services</a>, go to the <em>Service Center</em>, and select <em>Manage eStatements</em>.</p>
+        </div>
+    </div>
+
+    <!-- FAQ ACCORDION -->
+    <div class="container-lg px-sm-4 px-lg-0">
+        <div class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+
+            <p class="faq-group-label">Security</p>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
+                            Is Online Banking Services secure?
+                        </button>
+                    </h3>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>Yes. Your right to privacy and your online security is extremely important to us at Woodforest. You are protected by advanced encryption and authentication technology, ensuring the best efforts to maintain the safety of your data. Additionally we have secure messaging to contact Online Support Services securely by email.</p>
+                            <p>For more information about security, please review the following important information prior to using our site or our online banking services:</p>
+                            <ul>
+                                <li><a href="#" target="_blank">Your Privacy Rights</a></li>
+                                <li><a href="/about-us/privacy-security/">Security Policy</a></li>
+                                <li><a href="/about-us/privacy-security/">Security Tips</a></li>
+                                <li><a href="/personal/online-mobile-banking/online-mobile-banking-security/">Online Security</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Am I able to securely access Online Services outside the United States?
+                        </button>
+                    </h3>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>Yes for most regions. We have enhanced our security to provide additional fraud prevention when accessing Online Banking Services from outside the United States. Some regions may be explicitly blocked by our system for security reasons. If traveling outside the United States, please contact us at one of the following phone numbers so they may update your profile to allow you access to Online Services from the region(s) you will be traveling.</p>
+                            <ul>
+                                <li>Toll-Free: <a href="tel:18779687962">1-877-968-7962</a></li>
+                                <li>Houston: <a href="tel:8323752000">832-375-2000</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Why did I get an error that the region I'm logging in from is not permitted for my account?
+                        </button>
+                    </h3>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>If you attempt to log into Online Services from a foreign country without first contacting us, you will receive a region not permitted error stating you are attempting to log in from a country or region that is not permitted for your account. When traveling outside the continental United States you must notify the bank which country or region from which you will be logging into Online Services.</p>
+                            <ul>
+                                <li>Toll-Free: <a href="tel:18779687962">1-877-968-7962</a></li>
+                                <li>Houston: <a href="tel:8323752000">832-375-2000</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="faq-group-label">Signup / Enrollment</p>
+            <div class="accordion" id="faqAccordion2">
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false">
+                            How do I sign up for online services?
+                        </button>
+                    </h3>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            <p>You have two enrollment options available:</p>
+                            <ol>
+                                <li>If you are a new customer, a welcome email is automatically sent to you if you provide an email address upon account opening. The welcome email contains an enrollment token to expedite the enrollment process. You may also request an enrollment token by calling us.</li>
+                                <li>You may enroll without an enrollment token anytime by entering additional information during the enrollment process such as an account number or debit card number, along with mother's maiden name and date of birth.</li>
+                            </ol>
+                            <p>Click <strong>Enroll</strong> from www.woodforest.com. You will be taken to the Enrollment page where you will be prompted to enter required information depending on the enrollment option selected.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false">
+                            If I am a Small Business customer, may I enroll my business in Online Banking?
+                        </button>
+                    </h3>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            <p>If you wish to enroll your business in Online Banking please contact us at <a href="tel:18779687962">1-877-968-7962</a for assistance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false">
+                            What is my User ID?
+                        </button>
+                    </h3>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            <p>Your User ID is what identifies you in our system. You will choose your own unique User ID during the enrollment process.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false">
+                            When can I begin using online banking?
+                        </button>
+                    </h3>
+                    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            <p>If you are a new customer, you must wait until the day after you have opened your eligible account(s) to enroll in Online Services. Once you successfully complete the enrollment process you can then access your accounts online. Note: Only eligible accounts will display online. Contact your branch if you have any questions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false">
+                            Why do I need to select and answer four security questions?
+                        </button>
+                    </h3>
+                    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            <p>The security questions and answers are an important part of our online banking security model called "Multi Factor Authentication". Here's how it works:</p>
+                            <p>Each time you use online banking, the system will "profile" your online banking behavior by tracking each visit along with your activity (IP address, browser type, time of day, frequency, etc.). When an action occurs outside of your usual banking profile, the system will require you to answer one of your pre-selected security questions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="faq-group-label">Forgot Password</p>
+            <div class="accordion" id="faqAccordion3">
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false">
+                            What if I forget my password for online services?
+                        </button>
+                    </h3>
+                    <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion3">
+                        <div class="accordion-body">
+                            <p>From the online services login screen, click the "Forgot Your Password?" link and follow the steps to reset your password. You must answer one of your security questions that you selected during enrollment.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false">
+                            What if I forget the answers to my security questions?
+                        </button>
+                    </h3>
+                    <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion3">
+                        <div class="accordion-body">
+                            <p>Please contact us at one of the phone numbers below.</p>
+                            <ul>
+                                <li>Toll-Free: <a href="tel:18779687962">1-877-968-7962</a></li>
+                                <li>Houston: <a href="tel:8323752000">832-375-2000</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div class="footer-top">
+                <a href="/" style="color:white; text-decoration:none; display:block; margin-bottom:1rem;">
+                    <img src="https://www.woodforest.com/media/xijhunfv/wnb-logo-light.png" alt="Woodforest National Bank" style="width:200px; height:auto;" />
+                </a>
+                <div class="row">
+                    <div class="col-6 col-md-3 mb-3">
+                        <h6>Personal</h6>
+                        <ul>
+                            <li><a href="/personal/checking/">Checking</a></li>
+                            <li><a href="/personal/savings/">Savings</a></li>
+                            <li><a href="/personal/loans/">Loans</a></li>
+                            <li><a href="/personal/debit-cards/">Debit Cards</a></li>
+                            <li><a href="/personal/online-mobile-banking/">Online &amp; Mobile Banking</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <h6>Small Business</h6>
+                        <ul>
+                            <li><a href="/small-business/checking/">Checking</a></li>
+                            <li><a href="/small-business/savings/">Savings</a></li>
+                            <li><a href="/small-business/loans/">Loans</a></li>
+                            <li><a href="/small-business/other-services/">Other Services</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <h6>Commercial</h6>
+                        <ul>
+                            <li><a href="/commercial/loans-financing/">Loans &amp; Financing</a></li>
+                            <li><a href="/commercial/industry-solutions/">Industry Solutions</a></li>
+                            <li><a href="/commercial/treasury-management/">Treasury Management</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <h6>About Us</h6>
+                        <ul>
+                            <li><a href="/about-us/press-room/">Press Room</a></li>
+                            <li><a href="/about-us/contact-us/">Contact Us</a></li>
+                            <li><a href="/about-us/privacy-security/">Privacy &amp; Security</a></li>
+                            <li><a href="/about-us/careers/">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 flex-wrap mt-2" style="font-size:0.85rem;">
+                    <a href="/about-us/contact-us/locations/">Locations</a>
+                    <a href="/about-us/contact-us/">Contact Us</a>
+                    <a href="/about-us/careers/">Careers</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 Woodforest National Bank. All rights reserved. | Member FDIC.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.css" />
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.js"></script>
+
+    <script>
+        // Offcanvas menu toggle
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const overlay = document.getElementById('offcanvasOverlay');
+        const panel = document.getElementById('offcanvasPanel');
+        const closeBtn = document.getElementById('closeOffcanvas');
+
+        function openMenu() {
+            overlay.classList.add('active');
+            panel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMenu() {
+            overlay.classList.remove('active');
+            panel.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMenu();
+        });
+
+        // Mobile Banking Slider
+        document.addEventListener('DOMContentLoaded', function() {
+            var swiper = new Swiper('.mobile-app-slider .swiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                navigation: {
+                    nextEl: '.mobile-app-slider .swiper-button-next',
+                    prevEl: '.mobile-app-slider .swiper-button-prev',
+                },
+                pagination: {
+                    el: '.mobile-app-slider .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    576: { slidesPerView: 1.2, spaceBetween: 15 },
+                    768: { slidesPerView: 1.8, spaceBetween: 20 },
+                    992: { slidesPerView: 2.5, spaceBetween: 25 },
+                    1200: { slidesPerView: 3.2, spaceBetween: 30 },
+                },
+            });
+        });
+    </script>
+</body>
+</html>
