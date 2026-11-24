@@ -364,6 +364,93 @@
         .acct-entry-actions .action-btn i { font-size: 0.95rem; }
 
         /* Right sidebar on Account Summary */
+        /* ===== NEW: Dashboard Summary Cards ===== */
+        .summary-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .summary-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid #e8e8e8;
+        }
+        .summary-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .summary-card-header .label {
+            font-size: 0.85rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .summary-card-header .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .summary-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+        }
+        .summary-card .trend {
+            font-size: 0.8rem;
+            margin-top: -0.25rem;
+        }
+        .summary-card .trend.up { color: var(--theme-green); }
+        .summary-card .trend.down { color: #dc3545; }
+
+        /* ===== NEW: Alerts Section ===== */
+        .alerts-section {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .alerts-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.75rem;
+        }
+        .alerts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 0.75rem;
+        }
+        .alert-card {
+            border-radius: 6px;
+            padding: 0.85rem;
+            border-left: 4px solid var(--theme-blue);
+        }
+        .alert-card.pending { border-left-color: #f39c12; }
+        .alert-card.info { border-left-color: var(--theme-green); }
+        .alert-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+        .alert-card p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .alert-card a {
+            font-size: 0.85rem;
+            color: var(--theme-blue);
+            font-weight: 600;
+        }
+
         .acct-summary-right {
             width: 260px;
             flex-shrink: 0;
@@ -1181,6 +1268,57 @@
                 font-size: 0.72rem !important;
                 padding: 0.4rem 0.55rem !important;
             }
+
+            /* ===== NEW: Summary Cards Mobile ===== */
+            .summary-cards-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.5rem !important;
+            }
+            .summary-card {
+                padding: 0.6rem 0.75rem !important;
+            }
+            .summary-card .label {
+                font-size: 0.75rem !important;
+                gap: 0.2rem !important;
+            }
+            .summary-card .icon {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 1rem !important;
+            }
+            .summary-card .value {
+                font-size: 1.25rem !important;
+            }
+            .summary-card .trend {
+                font-size: 0.65rem !important;
+                margin-top: -0.1rem !important;
+            }
+
+            /* ===== NEW: Alerts Section Mobile ===== */
+            .alerts-section {
+                margin-top: 0.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            .alerts-section h3 {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .alerts-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
+            .alert-card {
+                padding: 0.6rem !important;
+            }
+            .alert-card h4 {
+                font-size: 0.85rem !important;
+            }
+            .alert-card p {
+                font-size: 0.75rem !important;
+            }
+            .alert-card a {
+                font-size: 0.75rem !important;
+            }
         }
     </style>
 </head>
@@ -1232,6 +1370,11 @@
             </ul>
         </div>
         <div class="main-content" id="acct-main">
+            <!-- Dashboard Summary Cards -->
+            <div class="summary-cards-grid" id="summary-cards-grid">
+                <!-- Populated by JS - Total Accounts, Total Balance, Pending -->
+            </div>
+
             <!-- Default: Account Summary -->
             <div class="sub-view active" id="sub-acct-summary">
                 <div class="acct-summary-header">
@@ -1241,6 +1384,23 @@
                     </div>
                     <div class="balance-totals" id="balance-totals">
                         <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- New: Alerts & Notifications Section -->
+                <div class="alerts-section" id="alerts-section">
+                    <h3><i class="bi bi-bell"></i> Alerts & Notifications</h3>
+                    <div class="alerts-grid" id="alerts-grid">
+                        <div class="alert-card pending">
+                            <h4><i class="bi bi-exclamation-circle"></i> Account Verification Required</h4>
+                            <p>Complete identity verification to unlock withdrawal limits.</p>
+                            <a href="#" onclick="showSubInTab('profile','verification');switchTab('profile');return false;">Complete Now</a>
+                        </div>
+                        <div class="alert-card info">
+                            <h4><i class="bi bi-info-circle"></i> Welcome!</h4>
+                            <p>Welcome to your new online banking. Start by adding quick access accounts.</p>
+                            <a href="#" onclick="showSubInTab('profile','overview');switchTab('profile');return false;">Set Up Profile</a>
+                        </div>
                     </div>
                 </div>
 
@@ -2152,6 +2312,54 @@
             container.innerHTML = html || '<p style="color:#999;text-align:center;padding:2rem 0;">No accounts match your search.</p>';
         }
 
+        function renderSummaryCards() {
+            var container = document.getElementById('summary-cards-grid');
+            if (!container) return;
+            
+            var allAccounts = [];
+            for (var key in ACCOUNTS_DATA) {
+                allAccounts = allAccounts.concat(ACCOUNTS_DATA[key].accounts);
+            }
+            
+            var totalBalance = 0;
+            var accountCount = allAccounts.length;
+            var pendingTxCount = 0;
+            var checkingBal = 0, savingsBal = 0, loanOwed = 0;
+            
+            allAccounts.forEach(function(a) {
+                if (a.type === 'checking') checkingBal += a.balance || 0;
+                else if (a.type === 'savings') savingsBal += a.balance || 0;
+                else if (a.type === 'loan') loanOwed += Math.abs(a.balance || 0);
+                else totalBalance += a.balance || 0;
+            });
+            
+            totalBalance += checkingBal + savingsBal - loanOwed;
+            
+            container.innerHTML = '<div class="summary-card">' +
+                '<div class="summary-card-header">' +
+                '<span class="label"><i class="bi bi-people"></i> Total Accounts</span>' +
+                '<span class="icon" style="background:#e3f2fd;color:#1565c0;"><i class="bi bi-people"></i></span>' +
+                '</div>' +
+                '<div class="value">' + accountCount + '</div>' +
+                '<div class="trend up">Active accounts</div></div>' +
+                
+                '<div class="summary-card">' +
+                '<div class="summary-card-header">' +
+                '<span class="label"><i class="bi bi-cash-coin"></i> Total Balance</span>' +
+                '<span class="icon" style="background:#e8f5e9;color:#2e7d32;"><i class="bi bi-cash-coin"></i></span>' +
+                '</div>' +
+                '<div class="value">' + formatCurrency(totalBalance) + '</div>' +
+                '<div class="trend up">All accounts combined</div></div>' +
+                
+                '<div class="summary-card">' +
+                '<div class="summary-card-header">' +
+                '<span class="label"><i class="bi bi-bell"></i> Alerts & Pending</span>' +
+                '<span class="icon" style="background:#fff3cd;color:#856404;"><i class="bi bi-bell"></i></span>' +
+                '</div>' +
+                '<div class="value">' + pendingTxCount + '</div>' +
+                '<div class="trend up">Needs attention</div></div>';
+        }
+
         function formatCurrency(val) {
             var abs = Math.abs(val);
             var formatted = '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -2167,7 +2375,7 @@
         }
 
         function filterAccounts() {
-            try { renderAccounts(); } catch(e) { console.error(e); }
+            try { renderAccounts(); renderSummaryCards(); } catch(e) { console.error(e); }
         }
 
         function viewRecentTx(number, name) {
@@ -2325,6 +2533,7 @@
                 document.getElementById('mob-user-display').textContent = user;
                 document.getElementById('dashboardMain').style.display = '';
                 try { renderAccounts(); } catch(e) { console.error(e); }
+                try { renderSummaryCards(); } catch(e) { console.error(e); }
                 try { computeTotals(); } catch(e) { console.error(e); }
             }
         })();
