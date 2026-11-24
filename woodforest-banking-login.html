@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Online Services Login - Woodforest National Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --theme-green: #AED581;
+            --theme-green2: #559e3c;
+            --theme-blue: #133B65;
+            --theme-header-footer-bg: #212529;
+            --theme-body-color: #222;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--theme-body-color);
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            background-color: #fff;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .site-header .container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+        }
+        .site-header .logo img {
+            height: 40px;
+            width: auto;
+        }
+        .site-header .fdic-img {
+            height: 28px;
+            width: auto;
+        }
+        .site-header .header-links {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+        }
+        .site-header .header-links a {
+            color: #444;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            transition: color 0.15s;
+        }
+        .site-header .header-links a:hover {
+            color: var(--theme-green2);
+        }
+
+        /* ===== NAV BAR ===== */
+        .nav-bar {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 8px 0;
+        }
+        .nav-bar .container {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-bar a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 4px 0;
+        }
+        .nav-bar a:hover {
+            color: var(--theme-green2);
+        }
+
+        /* ===== LOGIN CARD ===== */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 75vh;
+            padding: 2rem 1rem;
+        }
+        .login-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 2rem 2.5rem;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .login-card h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.5rem;
+        }
+        .login-card .login-notice {
+            font-size: 0.88rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .login-card .login-notice a {
+            color: var(--theme-blue);
+            text-decoration: underline;
+        }
+        .login-card .login-notice a:hover {
+            color: var(--theme-green2);
+        }
+        .login-card .login-sub-notice {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Zelle banner */
+        .zelle-banner {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .zelle-banner img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* Form */
+        .login-form .form-group {
+            margin-bottom: 1rem;
+        }
+        .login-form label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s;
+        }
+        /* Password visibility toggle */
+        .password-field {
+            position: relative;
+        }
+        .password-field .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 1.05rem;
+            padding: 0;
+            line-height: 1;
+            outline: none;
+            transition: color 0.15s;
+        }
+        .password-field .toggle-password:hover {
+            color: #444;
+        }
+        .password-field .toggle-password:focus {
+            color: var(--theme-blue);
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--theme-blue);
+            box-shadow: 0 0 0 1px var(--theme-blue);
+        }
+        .login-form .btn-submit {
+            background-color: var(--theme-blue);
+            color: white;
+            border: none;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .login-form .btn-submit:hover {
+            background-color: #0e2d50;
+        }
+        .login-form .forgot-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .login-form .forgot-links a {
+            color: var(--theme-blue);
+            text-decoration: underline;
+            font-size: 0.88rem;
+        }
+        .login-form .forgot-links a:hover {
+            color: var(--theme-green2);
+        }
+        .login-form .enroll-link {
+            display: inline-block;
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+            padding: 10px 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .login-form .enroll-link:hover {
+            background-color: var(--theme-green2);
+            color: white;
+        }
+
+        /* Help section */
+        .help-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .help-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 1rem;
+        }
+        .help-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .help-item img {
+            height: 24px;
+            width: auto;
+            flex-shrink: 0;
+        }
+        .help-item a {
+            color: var(--theme-blue);
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+        .help-item a:hover {
+            color: var(--theme-green2);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background-color: #f8f8f8;
+            border-top: 1px solid #e0e0e0;
+            padding: 1.25rem 0;
+            text-align: center;
+            font-size: 0.82rem;
+            color: #666;
+        }
+        .site-footer a {
+            color: var(--theme-blue);
+            text-decoration: underline;
+        }
+        .site-footer a:hover {
+            color: var(--theme-green2);
+        }
+        .site-footer .fdic-notice {
+            margin-top: 0.5rem;
+            font-size: 0.78rem;
+            color: #888;
+        }
+        .site-footer .fdic-notice img {
+            height: 18px;
+            width: auto;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        .site-footer .eoe-img {
+            height: 20px;
+            width: auto;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .site-footer .mobile-link {
+            font-size: 0.82rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 575.98px) {
+            .login-card {
+                padding: 1.5rem 1.25rem;
+            }
+            .login-form .forgot-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .site-header .header-links {
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <a href="/"><img src="https://www.woodforest.com/media/xijhunfv/wnb-logo-light.png" alt="Woodforest National Bank" style="height:38px; filter:brightness(0);" /></a>
+                    <img src="https://www.woodforest.com/images/fdic-light.png" alt="FDIC" class="fdic-img" />
+                </div>
+                <div class="header-links">
+                    <a href="/about-us/contact-us/locations/">Locations</a>
+                    <a href="/about-us/contact-us/">Contact Us</a>
+                    <a href="/about-us/privacy-security/">Privacy</a>
+                    <a href="/es/personal/banca-en-linea-y-movil/">En Espa&#241;ol</a>
+                    <a href="#help">Help</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div class="d-flex gap-3 flex-wrap">
+                <a href="/personal/">Personal</a>
+                <a href="/small-business/">Small Business</a>
+                <a href="/commercial/">Commercial</a>
+                <a href="/woodforest-cares/">Woodforest Cares</a>
+                <a href="/about-us/">About Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LOGIN CARD -->
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h1>Online Services Login</h1>
+            <p class="login-notice">
+                Logging into this site and using the features and functions within signifies that you have agreed to these
+                <a href="/about-us/privacy-security/terms-of-use/">Terms and Conditions</a>.
+            </p>
+            <p class="login-sub-notice">
+                For security purposes, we suggest that you change your password every 90 days. If you need assistance, please contact us at <a href="tel:18779687962">1-877-968-7962</a>.
+            </p>
+
+            <!-- ZELLE BANNER -->
+            <div class="zelle-banner">
+                <a href="/personal/online-mobile-banking/transfer-and-pay/zelle/">
+                    <img src="https://www.woodforest.com/media/pzklg00y/385901-zelle-awareness-olb-banner_760-x-420.png" alt="Zelle Awareness" />
+                </a>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" autocomplete="username" placeholder="Enter your username" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" />
+                        <button type="button" class="toggle-password" aria-label="Show password"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Log In</button>
+
+                <div class="forgot-links">
+                    <a href="/login/recovery">Forgot your password?</a>
+                    <a href="/login/recovery/username">Forgot your username?</a>
+                </div>
+
+                <a href="/woodforest-banking-enroll.html" class="enroll-link">Enroll in Online Banking</a>
+            </form>
+
+            <!-- HELP SECTION -->
+            <div class="help-section" id="help">
+                <h3>Need Help?</h3>
+                <div class="help-item">
+                    <img src="https://www.woodforest.com/media/5wwj1tci/ic_view.png" alt="" />
+                    <a href="https://demos.woodforest.com/en/course/start/enroll-in-online-banking/emulator-enroll-in-online-banking/emulator" target="_blank">How to Enroll in Online Banking</a>
+                </div>
+                <div class="help-item">
+                    <img src="https://www.woodforest.com/media/5wwj1tci/ic_view.png" alt="" />
+                    <a href="https://demos.woodforest.com/en/course/start/reset-password-online/emulator-reset-password-online/emulator" target="_blank">How to Reset Password in Online Banking</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container-lg px-sm-4 px-lg-0">
+            <div>
+                &#169; 2026 Woodforest National Bank &nbsp;
+                <img src="https://www.woodforest.com/images/fdic-light.png" alt="FDIC" style="height:16px; vertical-align:middle;" />
+                &nbsp;&#124; Equal Housing Lender
+                <img src="https://www.woodforest.com/images/eoe_logo.gif" alt="Equal Housing Lender" class="eoe-img" />
+            </div>
+            <div class="mt-1">
+                <a href="#" class="mobile-link">Mobile Web Site</a>
+            </div>
+            <div class="fdic-notice mt-1">
+                FDIC NEWS: <a href="https://www.fdic.gov/news/" target="_blank">Learn More</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Password visibility toggle on all password fields
+        document.querySelectorAll('.toggle-password').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var wrapper = this.closest('.password-field');
+                if (!wrapper) return;
+                var input = wrapper.querySelector('input[type="password"], input[type="text"]');
+                if (!input) return;
+                var icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'bi bi-eye-slash';
+                    this.setAttribute('aria-label', 'Hide password');
+                } else {
+                    input.type = 'password';
+                    icon.className = 'bi bi-eye';
+                    this.setAttribute('aria-label', 'Show password');
+                }
+            });
+        });
+
+        // Login form submission → open dashboard
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var user = document.getElementById('username').value.trim();
+            var pass = document.getElementById('password').value;
+            if (!user || !pass) {
+                alert('Please enter your User ID and Password.');
+                return;
+            }
+            localStorage.setItem('woodforest_user', user);
+            var now = new Date();
+            localStorage.setItem('woodforest_last_login', now.toLocaleDateString() + ' ' + now.toLocaleTimeString());
+            localStorage.setItem('woodforest_login_time', String(now.getTime()));
+            window.location.replace('/woodforest-banking-dashboard.html');
+        });
+    </script>
+
+</body>
+</html>
