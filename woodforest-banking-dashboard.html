@@ -175,9 +175,236 @@
         /* Main content area */
         .main-content {
             flex: 1;
-            padding: 1.25rem 1.5rem;
+            padding: 1.75rem 2rem;
             overflow-y: auto;
         }
+        
+        /* ===== BANKING DASHBOARD LAYOUT ===== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+        }
+        .dashboard-main { display: flex; flex-direction: column; gap: 1.25rem; }
+        .dashboard-top {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1.25rem;
+            align-items: start;
+        }
+        .card {
+            background: white;
+            border: 1px solid #e4e4e4;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .card-header h3, .card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+        .card-header h3 i, .card h3 i { color: var(--theme-blue); }
+        .card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Balance summary styles */
+        .balance-summary {
+            background: linear-gradient(135deg, var(--theme-blue) 0%, #0052a0 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .balance-summary h3 {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        .balance-summary .big-total {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0.25rem 0;
+        }
+        .balance-summary .sub-totals {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        /* Quick actions grid */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+        }
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.85rem;
+            background: white;
+            border: 1px solid #e4e4e4;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .quick-action-btn:hover {
+            background: var(--theme-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,51,102,0.2);
+        }
+        .quick-action-btn i {
+            font-size: 1.3rem;
+            color: var(--theme-blue);
+        }
+        .quick-action-btn:hover i { color: white; }
+        .quick-action-btn span {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Accounts section */
+        .accounts-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.25rem;
+            align-items: start;
+        }
+        .accounts-list {
+            flex: 1;
+        }
+        .accounts-list .account-group {
+            background: white;
+            border: 1px solid #e4e4e4;
+            border-radius: 12px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .account-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+        .account-group-header:hover { background: #f5f8ff; }
+        .account-group-header h4 {
+            font-size: 0.95rem;
+            color: var(--theme-blue);
+            margin: 0;
+        }
+        
+        /* Account cards */
+        .account-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #e4e4e4;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            background: white;
+            transition: all 0.2s;
+        }
+        .account-card:hover {
+            border-color: var(--theme-blue);
+            box-shadow: 0 2px 8px rgba(0,51,102,0.1);
+        }
+        .account-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .account-card-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .account-card-num {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 0.15rem;
+        }
+        .account-card-bal {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            text-align: right;
+        }
+        .account-card-bal .debit { color: var(--theme-red); }
+
+        /* ===== Mobile Dashboard - Single Column ===== */
+        .dashboard-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+        }
+        .dashboard-main, .dashboard-right {
+            width: 100% !important;
+        }
+        .balance-summary {
+            padding: 1rem !important;
+        }
+        .balance-summary h3 {
+            font-size: 0.8rem !important;
+        }
+        .balance-summary .big-total {
+            font-size: 1.6rem !important;
+        }
+        .balance-summary .sub-totals {
+            flex-direction: column !important;
+            gap: 0.25rem !important;
+            font-size: 0.75rem !important;
+        }
+        .card {
+            padding: 1rem !important;
+        }
+        .card-header h3, .card h3 {
+            font-size: 0.95rem !important;
+        }
+        .quick-actions {
+            grid-template-columns: 1fr !important;
+        }
+        .accounts-container {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        .account-card-bal {
+            font-size: 0.9rem !important;
+            text-align: left !important;
+            margin-top: 0.25rem !important;
+        }
+        .alert-card h4 {
+            font-size: 0.85rem !important;
+        }
+        .alert-card p {
+            font-size: 0.7rem !important;
+        }
+        .alert-card a {
+            font-size: 0.7rem !important;
+        }
+
         .sub-view { display: none; }
         .sub-view.active { display: block; }
         .sub-view h3 {
@@ -1370,75 +1597,107 @@
             </ul>
         </div>
         <div class="main-content" id="acct-main">
-            <!-- Dashboard Summary Cards -->
-            <div class="summary-cards-grid" id="summary-cards-grid">
-                <!-- Populated by JS - Total Accounts, Total Balance, Pending -->
-            </div>
-
-            <!-- Default: Account Summary -->
-            <div class="sub-view active" id="sub-acct-summary">
-                <div class="acct-summary-header">
-                    <div>
-                        <div class="acct-title">Account Summary</div>
-                        <div class="last-login">Last time you logged in: <span id="last-login-detail">—</span></div>
+            <!-- Banking Dashboard Layout -->
+            <div class="dashboard-grid">
+                <!-- Main Content Area -->
+                <div class="dashboard-main">
+                    <!-- Balance Summary -->
+                    <div class="balance-summary">
+                        <h3><i class="bi bi-cash-stack"></i> Current Balance</h3>
+                        <div class="big-total" id="total-balance-display">$0.00</div>
+                        <div class="sub-totals">
+                            <span id="summary-checking">Checking: $0.00</span>
+                            <span id="summary-savings">Savings: $0.00</span>
+                            <span id="summary-accounts">Accounts: 5</span>
+                        </div>
                     </div>
-                    <div class="balance-totals" id="balance-totals">
-                        <!-- Populated by JS -->
+
+                    <!-- Alerts -->
+                    <div class="card alerts-section">
+                        <h3><i class="bi bi-bell"></i> Alerts & Notifications</h3>
+                        <div class="alerts-grid" id="alerts-grid">
+                            <div class="alert-card pending">
+                                <h4><i class="bi bi-exclamation-circle"></i> Account Verification Required</h4>
+                                <p>Complete identity verification to unlock withdrawal limits.</p>
+                                <a href="#" onclick="showSubInTab('profile','verification');switchTab('profile');return false;">Complete Now</a>
+                            </div>
+                            <div class="alert-card info">
+                                <h4><i class="bi bi-info-circle"></i> Welcome!</h4>
+                                <p>Welcome to your new online banking. Start by adding quick access accounts.</p>
+                                <a href="#" onclick="showSubInTab('profile','overview');switchTab('profile');return false;">Set Up Profile</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accounts List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="bi bi-bank2"></i> Your Accounts</h3>
+                            <button class="btn-sm" onclick="viewAllActivity()"><i class="bi bi-list"></i> View All</button>
+                        </div>
+                        <div class="accounts-container">
+                            <div class="accounts-list" id="accounts-content">
+                                <!-- Populated by JS -->
+                            </div>
+                            <!-- Recent Transactions Sidebar -->
+                            <div class="card" style="max-height:300px;overflow-y:auto;font-size:0.8rem;">
+                                <h4><i class="bi bi-clock-history"></i> Recent Transactions</h4>
+                                <div id="sidebar-recent-tx">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <h3><i class="bi bi-lightning"></i> Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="showSubInTab('transfers','another-user');switchTab('transfers');return false;">
+                                <i class="bi bi-arrow-left-right"></i>
+                                <span>Transfer</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSubInTab('billpay','billpay-main');switchTab('billpay');return false;">
+                                <i class="bi bi-receipt-cutoff"></i>
+                                <span>Pay Bill</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSubInTab('messages','messages-inbox');switchTab('messages');return false;">
+                                <i class="bi bi-envelope"></i>
+                                <span>Messages</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSubInTab('accounts','statements');return false;">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <span>Statements</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- New: Alerts & Notifications Section -->
-                <div class="alerts-section" id="alerts-section">
-                    <h3><i class="bi bi-bell"></i> Alerts & Notifications</h3>
-                    <div class="alerts-grid" id="alerts-grid">
-                        <div class="alert-card pending">
-                            <h4><i class="bi bi-exclamation-circle"></i> Account Verification Required</h4>
-                            <p>Complete identity verification to unlock withdrawal limits.</p>
-                            <a href="#" onclick="showSubInTab('profile','verification');switchTab('profile');return false;">Complete Now</a>
-                        </div>
-                        <div class="alert-card info">
-                            <h4><i class="bi bi-info-circle"></i> Welcome!</h4>
-                            <p>Welcome to your new online banking. Start by adding quick access accounts.</p>
-                            <a href="#" onclick="showSubInTab('profile','overview');switchTab('profile');return false;">Set Up Profile</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="acct-summary-right" id="acct-summary-right">
-                    <div class="summary-sidebar-card">
-                        <h4><i class="bi bi-search"></i> Search Accounts</h4>
-                        <div class="search-box">
-                            <input type="text" id="search-accounts" placeholder="Name or number…" oninput="filterAccounts()" />
+                <!-- Right Sidebar -->
+                <div class="dashboard-right">
+                    <!-- Search -->
+                    <div class="card">
+                        <h3><i class="bi bi-search"></i> Search Accounts</h3>
+                        <div class="search-box" style="margin-top:0.5rem;">
+                            <input type="text" id="search-accounts" placeholder="Search accounts…" oninput="filterAccounts()" />
                             <button><i class="bi bi-search"></i></button>
                         </div>
                     </div>
 
-                    <div class="summary-sidebar-card">
-                        <h4><i class="bi bi-lightning"></i> Quick Actions</h4>
-                        <a class="quick-link" onclick="showSubInTab('transfers','another-user');switchTab('transfers');return false;">
-                            <i class="bi bi-arrow-left-right"></i> Transfer Funds
-                        </a>
-                        <a class="quick-link" onclick="showSubInTab('billpay','billpay-main');switchTab('billpay');return false;">
-                            <i class="bi bi-receipt-cutoff"></i> Pay a Bill
-                        </a>
-                        <a class="quick-link" onclick="showSubInTab('messages','messages-inbox');switchTab('messages');return false;">
-                            <i class="bi bi-envelope"></i> Send a Message
-                        </a>
-                    </div>
-
-                    <div class="summary-sidebar-card">
-                        <h4><i class="bi bi-calendar-event"></i> Upcoming Transfers</h4>
+                    <!-- Upcoming -->
+                    <div class="card">
+                        <h3><i class="bi bi-calendar-event"></i> Upcoming Transfers</h3>
                         <div class="upcoming-list" id="sidebar-upcoming">
                             <div class="no-upcoming">No upcoming transfers.</div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div style="flex:1;overflow-y:auto;">
-                    <div id="accounts-content">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
+            <!-- Legacy: Keep existing sub-views for navigation -->
+            <!-- Default: Account Summary -->
+            <div class="sub-view active" id="sub-acct-summary" style="display:none;">
+                <div id="legacy-accounts-content"></div>
             </div>
 
             <!-- Recent Transactions sub-view -->
@@ -2323,17 +2582,15 @@
             
             var totalBalance = 0;
             var accountCount = allAccounts.length;
-            var pendingTxCount = 0;
             var checkingBal = 0, savingsBal = 0, loanOwed = 0;
             
             allAccounts.forEach(function(a) {
                 if (a.type === 'checking') checkingBal += a.balance || 0;
                 else if (a.type === 'savings') savingsBal += a.balance || 0;
                 else if (a.type === 'loan') loanOwed += Math.abs(a.balance || 0);
-                else totalBalance += a.balance || 0;
             });
             
-            totalBalance += checkingBal + savingsBal - loanOwed;
+            totalBalance = checkingBal + savingsBal - loanOwed;
             
             container.innerHTML = '<div class="summary-card">' +
                 '<div class="summary-card-header">' +
@@ -2349,15 +2606,36 @@
                 '<span class="icon" style="background:#e8f5e9;color:#2e7d32;"><i class="bi bi-cash-coin"></i></span>' +
                 '</div>' +
                 '<div class="value">' + formatCurrency(totalBalance) + '</div>' +
-                '<div class="trend up">All accounts combined</div></div>' +
-                
-                '<div class="summary-card">' +
-                '<div class="summary-card-header">' +
-                '<span class="label"><i class="bi bi-bell"></i> Alerts & Pending</span>' +
-                '<span class="icon" style="background:#fff3cd;color:#856404;"><i class="bi bi-bell"></i></span>' +
-                '</div>' +
-                '<div class="value">' + pendingTxCount + '</div>' +
-                '<div class="trend up">Needs attention</div></div>';
+                '<div class="trend up">All accounts combined</div></div>';
+        }
+
+        // New: Banking Dashboard Balance Summary
+        function renderBalanceSummary() {
+            var totalEl = document.getElementById('total-balance-display');
+            if (!totalEl) return;
+            
+            var allAccounts = [];
+            for (var key in ACCOUNTS_DATA) {
+                allAccounts = allAccounts.concat(ACCOUNTS_DATA[key].accounts);
+            }
+            
+            var total = 0, checking = 0, savings = 0;
+            allAccounts.forEach(function(a) {
+                if (a.type === 'checking') checking += a.balance || 0;
+                else if (a.type === 'savings') savings += a.balance || 0;
+            });
+            total = checking + savings;
+            
+            totalEl.textContent = formatCurrency(total);
+            
+            var checkingEl = document.getElementById('summary-checking');
+            if (checkingEl) checkingEl.textContent = 'Checking: ' + formatCurrency(checking);
+            
+            var savingsEl = document.getElementById('summary-savings');
+            if (savingsEl) savingsEl.textContent = 'Savings: ' + formatCurrency(savings);
+            
+            var accountsEl = document.getElementById('summary-accounts');
+            if (accountsEl) accountsEl.textContent = 'Accounts: ' + allAccounts.length;
         }
 
         function formatCurrency(val) {
@@ -2534,6 +2812,7 @@
                 document.getElementById('dashboardMain').style.display = '';
                 try { renderAccounts(); } catch(e) { console.error(e); }
                 try { renderSummaryCards(); } catch(e) { console.error(e); }
+                try { renderBalanceSummary(); } catch(e) { console.error(e); }
                 try { computeTotals(); } catch(e) { console.error(e); }
             }
         })();
