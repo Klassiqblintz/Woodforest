@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Woodforest Online Banking — Account Summary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --theme-green: #AED581;
+            --theme-green2: #559e3c;
+            --theme-blue: #133B65;
+            --theme-header-footer-bg: #212529;
+            --theme-body-color: #222;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--theme-body-color);
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        /* ===== POST-LOGIN HEADER ===== */
+        .post-login-header {
+            background: #1a1a2e;
+            color: white;
+            padding: 0;
+        }
+        .post-login-header .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1.5rem;
+            min-width: 0;
+        }
+        .post-login-header .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .post-login-header .header-left img {
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+        .post-login-header .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.82rem;
+            color: #ccc;
+            flex-shrink: 0;
+        }
+        .post-login-header .header-right strong { color: white; }
+        .post-login-header .header-right > div {
+            white-space: nowrap;
+        }
+        .post-login-header .logout-btn {
+            background: transparent;
+            color: var(--theme-green);
+            border: 1px solid var(--theme-green);
+            padding: 4px 14px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .post-login-header .logout-btn:hover {
+            background: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+        }
+
+        /* ===== TAB BAR ===== */
+        .tab-bar {
+            background: #2c2f33;
+            border-bottom: 1px solid #444;
+        }
+        .tab-bar .tab-list {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0 1.5rem;
+            gap: 0;
+        }
+        .tab-bar .tab-list li {
+            padding: 0;
+        }
+        .tab-bar .tab-list li a {
+                white-space: nowrap !important;
+                min-width: auto !important;
+                font-weight: 500 !important;
+            display: block;
+            padding: 0.7rem 1.2rem;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+        .tab-bar .tab-list li a:hover {
+            color: white;
+            background: rgba(255,255,255,0.05);
+        }
+        .tab-bar .tab-list li a.active {
+            color: var(--theme-green);
+            border-bottom-color: var(--theme-green);
+            font-weight: 600;
+        }
+        .tab-bar .tab-list li a .msg-badge {
+            background: #e74c3c;
+            color: white;
+            font-size: 0.65rem;
+            padding: 1px 5px;
+            border-radius: 8px;
+            margin-left: 4px;
+            font-weight: 600;
+        }
+
+        /* ===== POST-LOGIN BODY LAYOUT ===== */
+        .post-login-body {
+            display: flex;
+            min-height: calc(100vh - 95px);
+        }
+
+        /* Left sub-nav (shown per tab) */
+        .sub-nav {
+            width: 180px;
+            background: #2c2f33;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .sub-nav .sub-nav-header {
+            font-size: 0.78rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.75rem 1rem 0.3rem;
+            font-weight: 600;
+        }
+        .sub-nav .sub-nav-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .sub-nav .sub-nav-list li a {
+            display: block;
+            padding: 0.45rem 1rem;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: all 0.15s;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+        }
+        .sub-nav .sub-nav-list li a:hover {
+            color: white;
+            background: rgba(255,255,255,0.04);
+            border-left-color: #555;
+        }
+        .sub-nav .sub-nav-list li a.active {
+            color: var(--theme-green);
+            background: rgba(174,213,129,0.08);
+            border-left-color: var(--theme-green);
+            font-weight: 600;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            padding: 1.25rem 1.5rem;
+            overflow-y: auto;
+        }
+        .sub-view { display: none; }
+        .sub-view.active { display: block; }
+        .sub-view h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            position: sticky;
+            top: 105px;
+            background: white;
+            padding: 0.75rem 0;
+            margin: 0 0 0.75rem;
+            border-bottom: 1px solid #e5e5e5;
+            z-index: 100;
+            margin-bottom: 0.5rem;
+        }
+        .sub-view .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .sub-view .page-header h3 { margin: 0; }
+        .sub-view .page-header .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* ===== ACCOUNT SUMMARY SPECIFIC ===== */
+        .acct-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .acct-summary-header .acct-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+        }
+        .acct-summary-header .last-login {
+            font-size: 0.82rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        .acct-summary-header .balance-totals {
+            text-align: right;
+            font-size: 0.88rem;
+        }
+        .acct-summary-header .balance-totals .bal-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 0.15rem 0;
+        }
+        .acct-summary-header .balance-totals .bal-row .bal-label {
+            color: #555;
+        }
+        .acct-summary-header .balance-totals .bal-row .bal-value {
+            font-weight: 600;
+            color: var(--theme-blue);
+            min-width: 90px;
+            text-align: right;
+        }
+        .acct-summary-header .balance-totals .bal-row.bal-total {
+            border-top: 1px solid #ccc;
+            padding-top: 0.35rem;
+            margin-top: 0.2rem;
+            font-weight: 700;
+        }
+
+        /* Account group */
+        .acct-group {
+            margin-bottom: 0.5rem;
+        }
+        .acct-group-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--theme-blue);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .acct-group-title i { font-size: 0.8rem; transition: transform 0.15s; }
+        .acct-group-title.collapsed i { transform: rotate(-90deg); }
+        .acct-group-header { margin-top: 0.3rem; }
+        .acct-group.collapsed .acct-group-header { display: none; }
+
+        /* Each account entry */
+        .acct-entry {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 0.4rem;
+            overflow: hidden;
+        }
+        .acct-entry-head {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: #f8f8f8;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .acct-entry-head:hover { background: #f0f0f0; }
+        .acct-entry-head .acct-toggle-icon {
+            color: #888;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            transition: transform 0.15s;
+            flex-shrink: 0;
+        }
+        .acct-entry.expanded .acct-entry-head .acct-toggle-icon {
+            transform: rotate(90deg);
+        }
+        .acct-entry-head .acct-info { flex: 1; }
+        .acct-entry-head .acct-info .acct-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--theme-blue);
+        }
+        .acct-entry-head .acct-info .acct-num {
+            font-size: 0.78rem;
+            color: #777;
+        }
+        .acct-entry-head .acct-bal {
+            text-align: right;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        .acct-entry-head .acct-bal .bal-amount {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+        }
+        .acct-entry-head .acct-bal .bal-amount.negative { color: #c0392b; }
+        .acct-entry-head .acct-bal .bal-available {
+            font-size: 0.72rem;
+            color: #666;
+        }
+        /* Expanded actions */
+        .acct-entry-actions {
+            display: none;
+            padding: 0.65rem 0.75rem;
+            border-top: 1px solid #e8e8e8;
+            background: #fff;
+        }
+        .acct-entry.expanded .acct-entry-actions { display: block; }
+        .acct-num-toggle {
+            opacity: 0.4;
+            transition: opacity 0.15s, color 0.15s;
+        }
+        .acct-num-toggle:hover {
+            opacity: 0.8;
+            color: var(--theme-blue);
+        }
+        .acct-num-visible.masked {
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 0.5px;
+        }
+        .acct-entry-actions .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.35rem;
+        }
+        .acct-entry-actions .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.35rem 0.5rem;
+            font-size: 0.8rem;
+            color: var(--theme-blue);
+            cursor: pointer;
+            border: none;
+            background: none;
+            border-radius: 3px;
+            transition: background 0.15s;
+            text-align: left;
+            font-family: inherit;
+        }
+        .acct-entry-actions .action-btn:hover {
+            background: #e8e8e8;
+        }
+        .acct-entry-actions .action-btn i { font-size: 0.95rem; }
+
+        /* Right sidebar on Account Summary */
+        .acct-summary-right {
+            width: 260px;
+            flex-shrink: 0;
+            padding-left: 1rem;
+        }
+        .summary-sidebar-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.85rem;
+            margin-bottom: 0.85rem;
+        }
+        .summary-sidebar-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 2px solid var(--theme-green);
+        }
+        .summary-sidebar-card h4 i { margin-right: 4px; }
+        .summary-sidebar-card .search-input {
+            display: flex;
+            gap: 4px;
+        }
+        .summary-sidebar-card .search-input input {
+            flex: 1;
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 0.82rem;
+        }
+        .summary-sidebar-card .search-input button {
+            background: var(--theme-blue);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .summary-sidebar-card .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.35rem 0;
+            font-size: 0.85rem;
+            color: var(--theme-blue);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .summary-sidebar-card .quick-link:hover {
+            color: var(--theme-green2);
+            text-decoration: underline;
+        }
+        .summary-sidebar-card .quick-link i { font-size: 0.95rem; color: #666; }
+        .summary-sidebar-card .upcoming-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            font-size: 0.82rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .summary-sidebar-card .upcoming-item .upc-date { color: #555; }
+        .summary-sidebar-card .upcoming-item .upc-amt { font-weight: 600; color: var(--theme-blue); }
+        .summary-sidebar-card .no-upcoming {
+            font-size: 0.82rem;
+            color: #888;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .summary-sidebar-card .recent-tx-list {
+            font-size: 0.78rem;
+        }
+        .summary-sidebar-card .recent-tx-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #f5f5f0;
+        }
+        .summary-sidebar-card .recent-tx-item .tx-desc { color: #444; }
+        .summary-sidebar-card .recent-tx-item .tx-amount.credit { color: #27ae60; font-weight: 600; }
+        .summary-sidebar-card .recent-tx-item .tx-amount.debit { color: #c0392b; font-weight: 600; }
+
+        /* ===== BILLS / PAYEE VIEWS ===== */
+        .billpay-nav-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        .billpay-nav-list li a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.88rem;
+            color: var(--theme-blue);
+            text-decoration: none;
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .billpay-nav-list li a:hover { background: #e8e8e8; }
+        .billpay-nav-list li a i { font-size: 1.1rem; }
+
+        /* Forms */
+        .form-row { margin-bottom: 0.85rem; }
+        .form-row label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            color: #333;
+        }
+        .form-row input, .form-row select, .form-row textarea {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            font-family: inherit;
+        }
+        .form-row input:focus, .form-row select:focus {
+            outline: none;
+            border-color: var(--theme-blue);
+            box-shadow: 0 0 0 1px var(--theme-blue);
+        }
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .btn-green {
+            background-color: var(--theme-green);
+            color: var(--theme-header-footer-bg);
+            border: none;
+            padding: 8px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-green:hover { background-color: var(--theme-green2); color: white; }
+        .btn-blue {
+            background-color: var(--theme-blue);
+            color: white;
+            border: none;
+            padding: 8px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-blue:hover { background-color: #0e2f50; }
+        .btn-outline {
+            background: transparent;
+            color: #555;
+            border: 1px solid #ccc;
+            padding: 8px 28px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background: #f5f5f5; }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 0.78rem;
+        }
+
+        /* Tables */
+        .table-basic {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+        }
+        .table-basic th {
+            text-align: left;
+            font-size: 0.76rem;
+            color: #666;
+            font-weight: 600;
+            padding: 5px 8px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .table-basic td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+        .table-basic .amount-credit { color: #27ae60; font-weight: 600; }
+        .table-basic .amount-debit { color: #c0392b; font-weight: 600; }
+
+        /* Alert boxes */
+        .alert-info {
+            padding: 0.6rem 0.85rem;
+            background: #e8f4fd;
+            border: 1px solid #b8daff;
+            color: #004085;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            margin-bottom: 0.85rem;
+        }
+        .alert-info i { margin-right: 4px; }
+
+        /* ===== MOBILE VIEW ===== */
+        .mobile-view {
+            display: none;
+            position: fixed;
+            top: 105px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            background: #f4f4f4;
+            z-index: 9999;
+        }
+        .mobile-view.active {
+            display: block;
+        }
+        .mobile-view .mobile-header {
+            background: #1a1a2e;
+            color: white;
+            padding: 1rem 1.25rem 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            box-sizing: border-box;
+        }
+        .mobile-view .mobile-header .mob-top-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .mobile-view .mobile-header img { height: 26px; filter: brightness(0) invert(1); flex-shrink: 0; }
+        .mobile-view .mobile-header .mob-welcome-text {
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+        }
+        .mobile-view .mobile-header .mob-btn-group {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        .mobile-view .mobile-header .mob-logout {
+            background: none;
+            border: 1px solid var(--theme-green);
+            color: var(--theme-green);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .mobile-view .mobile-nav-icons {
+            display: flex;
+            justify-content: space-around;
+            padding: 1.25rem 0.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .mobile-view .mobile-nav-icons .mob-icon-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--theme-blue);
+            font-family: inherit;
+            padding: 0.5rem 0.75rem;
+        }
+        .mobile-view .mobile-nav-icons .mob-icon-btn i {
+            font-size: 1.6rem;
+            color: var(--theme-blue);
+        }
+        .mobile-view .mobile-nav-icons .mob-icon-btn span {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--theme-blue);
+            white-space: normal;
+            text-align: center;
+            line-height: 1.25;
+            max-width: 110px;
+        }
+        .mobile-view .mob-content-area {
+            padding: 1.25rem;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        .mobile-view .mob-section { display: none; }
+        .mobile-view .mob-section.active { display: block; }
+        .mobile-view .mob-section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+            margin: 0 0 0.75rem;
+        }
+        .mobile-view .mob-total-bar {
+            background: var(--theme-blue);
+            color: white;
+            padding: 0.85rem 1.25rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .mobile-view .mob-total-bar .mob-total-label {
+            font-size: 0.82rem;
+            opacity: 0.85;
+        }
+        .mobile-view .mob-total-bar .mob-total-value {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+        .mobile-view .mob-account-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+        .mobile-view .mob-account-card .mob-acct-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.35rem;
+            flex-wrap: nowrap;
+            gap: 0.5rem;
+        }
+        .mobile-view .mob-account-card .mob-acct-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--theme-blue);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            flex: 1;
+            min-width: 0;
+        }
+        .mobile-view .mob-account-card .mob-acct-bal {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--theme-blue);
+        }
+        .mobile-view .mob-account-card .mob-acct-bal.negative {
+            color: #c0392b;
+        }
+        .mobile-view .mob-account-card .mob-acct-num {
+            font-size: 0.82rem;
+            color: #777;
+        }
+        .mobile-view .mob-table-wrap {
+            overflow-x: auto !important;
+            margin-top: 0.5rem;
+        }
+        .mobile-view .mob-table-wrap table {
+            width: 100%;
+            min-width: 360px;
+        }
+
+        /* ===== FOOTER ===== */
+        .dash-footer {
+            background: #1a1a2e;
+            color: #999;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.72rem;
+            text-align: center;
+        }
+        .dash-footer a { color: var(--theme-green); text-decoration: none; margin: 0 0.5rem; }
+        .dash-footer a:hover { text-decoration: underline; }
+        .dash-footer img { height: 14px; vertical-align: middle; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .sub-nav { display: none; }
+            .acct-summary-right { width: 100%; padding-left: 0; margin-top: 1rem; }
+            .acct-summary-header { flex-direction: column; }
+            .acct-summary-header .balance-totals { text-align: left; margin-top: 0.5rem; }
+            .acct-entry-actions .actions-grid { grid-template-columns: repeat(2, 1fr); }
+            .billpay-nav-list { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .post-login-header .header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+                padding: 0.65rem 1rem;
+            }
+            .post-login-header .header-left {
+                gap: 0.6rem;
+            }
+            .post-login-header .header-left img {
+                height: 26px;
+            }
+            .post-login-header .header-right {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 0.5rem 1rem;
+                font-size: 0.78rem;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .post-login-header .header-right > div {
+                white-space: nowrap;
+            }
+            .post-login-header .logout-btn {
+                padding: 4px 10px;
+                font-size: 0.78rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+        }
+        /* Profile card base styles (desktop) */
+        .profile-card {
+            background: white;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .profile-header-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #1a1a2e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin: 0 auto 0.5rem;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .profile-avatar-section {
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .profile-avatar .btn-sm {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+        }
+        .profile-info { flex: 1; }
+        .profile-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--theme-header-footer-bg);
+            margin-bottom: 0.15rem;
+        }
+        .profile-username {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.15rem;
+        }
+        .profile-member-since {
+            font-size: 0.78rem;
+            color: #999;
+        }
+        .profile-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .profile-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .profile-detail-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .profile-detail-value {
+            font-size: 0.92rem;
+            color: #222;
+            font-weight: 500;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .security-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .security-section h4 {
+            font-size: 1rem;
+            color: var(--theme-blue);
+            margin-bottom: 0.75rem;
+            margin-top: 105px;
+        }
+        .security-section .form-row {
+            margin-bottom: 0.75rem;
+        }
+        .security-section label {
+            font-size: 0.88rem;
+            padding: 0.35rem 0;
+        }
+        /* Mobile nav icons base */
+        .mobile-nav-icons { display: none; }
+        .tab-bar {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 576px) {
+            /* ===== DASHBOARD MOBILE — all tabs ===== */
+            .acct-summary-header .acct-title { font-size: 1.05rem !important; }
+            .acct-summary-header .last-login { font-size: 0.72rem !important; }
+            .acct-summary-header .balance-totals .bal-row { font-size: 0.78rem !important; margin-bottom: 0.15rem !important; }
+            .acct-summary-header .balance-totals .bal-label { font-size: 0.72rem !important; }
+            .acct-summary-header .balance-totals .bal-value { font-size: 0.78rem !important; }
+            .acct-summary-header .balance-totals .bal-total { font-size: 0.82rem !important; }
+            .acct-summary-header .balance-totals .bal-total .bal-label,
+            .acct-summary-header .balance-totals .bal-total .bal-value { font-size: 0.82rem !important; }
+            .summary-sidebar-card h4 { font-size: 0.88rem !important; }
+            .quick-link { font-size: 0.78rem !important; padding: 0.35rem 0 !important; }
+            .acct-group-title { font-size: 0.82rem !important; padding: 0.3rem 0.5rem !important; }
+            .acct-name { font-size: 0.82rem !important; }
+            .acct-num { font-size: 0.72rem !important; }
+            .bal-amount { font-size: 0.88rem !important; }
+            .acct-num-toggle { font-size: 0.68rem !important; }
+            .acct-num-visible { font-size: 0.7rem !important; }
+
+            /* ===== TAB BAR — no wrapping, scrollable ===== */
+            .tab-bar .tab-list li a {
+                font-size: 0.78rem !important;
+                padding: 0.5rem 0.8rem !important;
+                white-space: nowrap !important;
+                min-width: auto !important;
+                font-weight: 500 !important;
+            }
+            .tab-bar .tab-list { gap: 0 !important; font-size: 0.78rem !important; }
+            .tab-bar { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+
+            /* ===== PROFILE CARD — avatar not clipped at top ===== */
+            .profile-card {
+                padding: 0.75rem !important;
+                overflow: visible !important;
+            }
+            .profile-header-row {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 0.5rem !important;
+                margin-bottom: 0.75rem !important;
+                padding-bottom: 0.75rem !important;
+                padding-top: 0.5rem !important;
+                overflow: visible !important;
+            }
+            .profile-avatar-section {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                overflow: visible !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .profile-avatar {
+                width: 90px !important;
+                height: 90px !important;
+                font-size: 2.5rem !important;
+                overflow: hidden !important;
+                border-radius: 50% !important;
+                margin: 0 auto 0.5rem !important;
+                flex-shrink: 0 !important;
+                position: relative !important;
+            }
+            .profile-avatar img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                object-position: center !important;
+            }
+            .profile-info { overflow: visible !important; min-width: 0 !important; }
+            .profile-name {
+                font-size: 1.05rem !important;
+                text-align: center !important;
+                margin-bottom: 0.1rem !important;
+            }
+            .profile-username {
+                font-size: 0.72rem !important;
+                text-align: center !important;
+                margin-bottom: 0.1rem !important;
+            }
+            .profile-member-since {
+                font-size: 0.68rem !important;
+                text-align: center !important;
+                color: #888 !important;
+            }
+            .profile-details-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.25rem !important;
+                margin-bottom: 0.75rem !important;
+                overflow: visible !important;
+            }
+            .profile-detail-item {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.05rem !important;
+                padding: 0.1rem 0 !important;
+            }
+            .profile-detail-label {
+                font-size: 0.65rem !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.3px !important;
+                color: #888 !important;
+            }
+            .profile-detail-value {
+                font-size: 0.78rem !important;
+                color: #222 !important;
+                font-weight: 500 !important;
+                word-break: break-word !important;
+            }
+            .profile-actions {
+                flex-direction: column !important;
+                gap: 0.4rem !important;
+                margin-top: 0.5rem !important;
+            }
+            .profile-actions .btn-blue,
+            .profile-actions .btn-outline {
+                width: 100% !important;
+                text-align: center !important;
+                font-size: 0.82rem !important;
+                padding: 6px 14px !important;
+                min-height: 36px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            /* ===== FORM FIELDS — compact, no cutoff ===== */
+            .form-row { margin-bottom: 0.35rem !important; }
+            .form-row label {
+                font-size: 0.72rem !important;
+                margin-bottom: 0.08rem !important;
+                display: block !important;
+                padding: 0 !important;
+            }
+            .form-row input,
+            .form-row select,
+            .form-row textarea {
+                font-size: 0.78rem !important;
+                padding: 4px 6px !important;
+                min-height: 34px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .form-actions {
+                flex-direction: column !important;
+                gap: 0.3rem !important;
+                margin-top: 0.4rem !important;
+                padding-top: 0.35rem !important;
+            }
+            .form-actions .btn-green,
+            .form-actions .btn-blue,
+            .form-actions .btn-outline {
+                font-size: 0.78rem !important;
+                padding: 5px 14px !important;
+                width: 100% !important;
+                text-align: center !important;
+                min-height: 36px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            /* ===== TABLE MOBILE ===== */
+            .table-basic {
+                font-size: 0.72rem !important;
+                min-width: 100% !important;
+                width: 100% !important;
+                display: block !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+            .table-basic th, .table-basic td {
+                padding: 3px 4px !important;
+                font-size: 0.72rem !important;
+            }
+
+            /* ===== MESSAGE CENTER — title & button don't overlap ===== */
+            .page-header {
+                flex-direction: column !important;
+                gap: 0.3rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .page-header h3 {
+                font-size: 0.95rem !important;
+                margin: 0 !important;
+            }
+            .header-actions {
+                width: 100% !important;
+            }
+            .header-actions .btn-sm {
+                width: 100% !important;
+                text-align: center !important;
+                font-size: 0.78rem !important;
+                padding: 5px 12px !important;
+            }
+
+            /* ===== SERVICE CENTER — heading doesn't cover blue box ===== */
+            .sub-view h3 {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .sub-view > .alert-info,
+            .sub-view > .security-section:first-child {
+                margin-top: 1.2rem !important;
+            }
+            .security-section {
+                padding: 0.45rem !important;
+                margin-bottom: 0.65rem !important;
+                overflow: visible !important;
+            }
+            .security-section h4 {
+                font-size: 0.85rem !important;
+                margin-bottom: 0.3rem !important;
+                margin-top: 0.2rem !important;
+            }
+            .security-section .form-row { margin-bottom: 0.3rem !important; font-size: 0.78rem !important; }
+            .security-section .form-row label { font-size: 0.72rem !important; }
+            .security-section .form-row input,
+            .security-section .form-row select {
+                font-size: 0.78rem !important;
+                padding: 4px 6px !important;
+            }
+            .security-section label {
+                font-size: 0.72rem !important;
+                padding: 0.2rem 0 !important;
+            }
+
+            /* ===== HEADER — welcome + logout don't overlap ===== */
+            .post-login-header .header-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.25rem !important;
+                padding: 0.45rem 0.75rem !important;
+            }
+            .post-login-header .header-right {
+                width: 100% !important;
+                flex-wrap: nowrap !important;
+                gap: 0.3rem !important;
+                font-size: 0.72rem !important;
+            }
+            .post-login-header .header-right > div {
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            .post-login-header .logout-btn {
+                padding: 3px 8px !important;
+                font-size: 0.72rem !important;
+                white-space: nowrap !important;
+            }
+
+            /* ===== SUB NAV & HEADERS ===== */
+            .sub-nav { font-size: 0.75rem !important; }
+            .sub-nav-header { font-size: 0.85rem !important; }
+
+            /* ===== MAIN CONTENT — scrollable, no clipping ===== */
+            .main-content {
+                padding: 0.55rem !important;
+                overflow-y: auto !important;
+                min-height: 0 !important;
+            }
+            .post-login-body {
+                min-height: calc(100vh - 95px) !important;
+            }
+
+            /* ===== ALERTS ===== */
+            .alert-info {
+                font-size: 0.72rem !important;
+                padding: 0.4rem 0.55rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- ===== LOGIN OVERLAY ===== -->
+<!-- ===== POST-LOGIN DASHBOARD ===== -->
+<div id="dashboardMain" style="display:none;">
+    <!-- HEADER -->
+    <div class="post-login-header">
+        <div class="header-row">
+            <div class="header-left">
+                <img src="https://www.woodforest.com/media/xijhunfv/wnb-logo-light.png" alt="Woodforest National Bank" />
+            </div>
+            <div class="header-right">
+                <div>
+                    Welcome, <strong id="user-display">User</strong>
+                </div>
+                <div>
+                    Last login: <span id="last-login-display">—</span>
+                </div>
+                <button class="logout-btn" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Log Off</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB BAR (top-level navigation) -->
+    <div class="tab-bar">
+        <ul class="tab-list" id="tab-list">
+            <li><a class="active" href="" data-tab="accounts">Accounts</a></li>
+            <li><a href="" data-tab="profile">Profile</a></li>
+            <li><a href="" data-tab="transfers">Transfers</a></li>
+            <li><a href="" data-tab="service">Service Center</a></li>
+            <li><a href="" data-tab="messages">Message Center <span class="msg-badge"></span></a></li>
+        </ul>
+    </div>
+
+    <!-- ===== ACCOUNTS TAB ===== -->
+    <div class="post-login-body" id="tab-accounts">
+        <div class="sub-nav">
+            <div class="sub-nav-header">Accounts</div>
+            <ul class="sub-nav-list" id="accounts-subnav">
+                <li><a class="active" href="" data-sub="acct-summary">Account Summary</a></li>
+                <li><a href="" data-sub="recent-tx">Recent Transactions</a></li>
+                <li><a href="" data-sub="upcoming-txfer">Upcoming Transfers</a></li>
+                <li><a href="" data-sub="upcoming-pay">Upcoming Payments</a></li>
+                <li><a href="" data-sub="statements">Statements</a></li>
+                <li><a href="" data-sub="all-activity">View All Activity</a></li>
+                <li><a href="" data-sub="bill-pay">Pay A Bill</a></li>
+            </ul>
+        </div>
+        <div class="main-content" id="acct-main">
+            <!-- Default: Account Summary -->
+            <div class="sub-view active" id="sub-acct-summary">
+                <div class="acct-summary-header">
+                    <div>
+                        <div class="acct-title">Account Summary</div>
+                        <div class="last-login">Last time you logged in: <span id="last-login-detail">—</span></div>
+                    </div>
+                    <div class="balance-totals" id="balance-totals">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="acct-summary-right" id="acct-summary-right">
+                    <div class="summary-sidebar-card">
+                        <h4><i class="bi bi-search"></i> Search Accounts</h4>
+                        <div class="search-box">
+                            <input type="text" id="search-accounts" placeholder="Name or number…" oninput="filterAccounts()" />
+                            <button><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="summary-sidebar-card">
+                        <h4><i class="bi bi-lightning"></i> Quick Actions</h4>
+                        <a class="quick-link" onclick="showSubInTab('transfers','another-user');switchTab('transfers');return false;">
+                            <i class="bi bi-arrow-left-right"></i> Transfer Funds
+                        </a>
+                        <a class="quick-link" onclick="showSubInTab('billpay','billpay-main');switchTab('billpay');return false;">
+                            <i class="bi bi-receipt-cutoff"></i> Pay a Bill
+                        </a>
+                        <a class="quick-link" onclick="showSubInTab('messages','messages-inbox');switchTab('messages');return false;">
+                            <i class="bi bi-envelope"></i> Send a Message
+                        </a>
+                    </div>
+
+                    <div class="summary-sidebar-card">
+                        <h4><i class="bi bi-calendar-event"></i> Upcoming Transfers</h4>
+                        <div class="upcoming-list" id="sidebar-upcoming">
+                            <div class="no-upcoming">No upcoming transfers.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex:1;overflow-y:auto;">
+                    <div id="accounts-content">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions sub-view -->
+            <div class="sub-view" id="sub-recent-tx">
+                <h3>Recent Transactions</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> The last 10 recent transactions for each account are displayed below.</div>
+                <div id="recent-tx-content"></div>
+            </div>
+
+            <!-- All Activity sub-view -->
+            <div class="sub-view" id="sub-all-activity">
+                <h3>View All Activity</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> View up to 120 days of transaction history.</div>
+                <div class="form-row">
+                    <label>Account:</label>
+                    <select id="all-activity-acct">
+                        <option>Checking *****</option>
+                        <option>Savings *****</option>
+                        <option>Second Chance Checking *****</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Date Range:</label>
+                    <div style="display:flex;gap:0.5rem;align-items:center;">
+                        <input type="date" id="all-activity-from" style="width:170px;" />
+                        <span>to</span>
+                        <input type="date" id="all-activity-to" style="width:170px;" />
+                        <button class="btn-blue" style="padding:5px 14px;font-size:0.85rem;">View</button>
+                    </div>
+                </div>
+                <table class="table-basic">
+                    <thead><tr><th>Date</th><th>Description</th><th style="text-align:right;">Amount</th></tr></thead>
+                    <tbody id="all-activity-body">
+                        <tr><td>01/01/0001</td><td>DIRECT DEPOSIT - EMPLOYER</td><td style="text-align:right;" class="amount-credit">+$0.00</td></tr>
+                        <tr><td>01/02/0001</td><td>PURCHASE - GROCERY STORE</td><td style="text-align:right;" class="amount-debit">-$0.00</td></tr>
+                        <tr><td>01/02/0001</td><td>PURCHASE - GROCERY STORE</td><td style="text-align:right;" class="amount-debit">-$0.00</td></tr>
+                        <tr><td>01/03/0001</td><td>ATM WDL Woodforest Natl Bank</td><td style="text-align:right;" class="amount-debit">-$0.00</td></tr>
+                        <tr><td>01/04/0001</td><td>TRANSFER TO SAVINGS *****</td><td style="text-align:right;" class="amount-debit">-$0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Statements sub-view -->
+            <div class="sub-view" id="sub-statements">
+                <h3>Statements</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Statements are available for the last 12 months. Select a statement to view or download.</div>
+                <table class="table-basic">
+                    <thead><tr><th>Period</th><th>Account</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td>10/0001</td><td>Checking *****</td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Viewing PDF…');return false;">View</a> | <a href="#" style="color:var(--theme-blue);" onclick="alert('Downloading…');return false;">Download</a></td></tr>
+                        <tr><td>09/0001</td><td>Checking *****</td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Viewing PDF…');return false;">View</a> | <a href="#" style="color:var(--theme-blue);" onclick="alert('Downloading…');return false;">Download</a></td></tr>
+                        <tr><td>08/0001</td><td>Checking *****</td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Viewing PDF…');return false;">View</a> | <a href="#" style="color:var(--theme-blue);" onclick="alert('Downloading…');return false;">Download</a></td></tr>
+                        <tr><td>10/0001</td><td>Savings *****</td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Viewing PDF…');return false;">View</a> | <a href="#" style="color:var(--theme-blue);" onclick="alert('Downloading…');return false;">Download</a></td></tr>
+                        <tr><td>09/0001</td><td>Savings *****</td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Viewing PDF…');return false;">View</a> | <a href="#" style="color:var(--theme-blue);" onclick="alert('Downloading…');return false;">Download</a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Upcoming Transfers sub-view -->
+            <div class="sub-view" id="sub-upcoming-txfer">
+                <h3>Upcoming Transfers</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> No upcoming transfers are currently scheduled.</div>
+            </div>
+
+            <!-- Upcoming Payments sub-view -->
+            <div class="sub-view" id="sub-upcoming-pay">
+                <h3>Upcoming Payments</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> No upcoming payments are currently scheduled.</div>
+            </div>
+
+            <!-- Pay A Bill sub-view -->
+            <div class="sub-view" id="sub-bill-pay">
+                <h3>Pay A Bill</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Select a task to manage your bill payments.</div>
+                <ul class="billpay-nav-list">
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-payee-add');switchTab('billpay');return false;"><i class="bi bi-plus-circle"></i> Add a Payee</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-multi');switchTab('billpay');return false;"><i class="bi bi-check2-all"></i> Multi-Pay</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-single');switchTab('billpay');return false;"><i class="bi bi-check2"></i> Single Pay</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-history');switchTab('billpay');return false;"><i class="bi bi-clock-history"></i> Payment History</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-upcoming');switchTab('billpay');return false;"><i class="bi bi-calendar-event"></i> Upcoming Payments</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-auto');switchTab('billpay');return false;"><i class="bi bi-gear"></i> Auto-Pay</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TRANSFERS TAB ===== -->
+
+    <!-- ===== PROFILE TAB ===== -->
+    <div class="post-login-body" id="tab-profile" style="display:none;">
+        <div class="sub-nav">
+            <div class="sub-nav-header">Profile</div>
+            <ul class="sub-nav-list">
+                <li><a class="active" href="" data-sub="prof-overview">Profile Overview</a></li>
+                <li><a href="" data-sub="prof-personal">Personal Info</a></li>
+                <li><a href="" data-sub="prof-security">Security &amp; Login</a></li>
+                <li><a href="" data-sub="prof-notifications">Notifications</a></li>
+                <li><a href="" data-sub="prof-addresses">Addresses</a></li>
+                <li><a href="" data-sub="prof-device">Manage Devices</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="sub-view active" id="sub-prof-overview">
+                <h3>Profile Overview</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Manage your personal information, security settings, notifications, and connected devices.</div>
+                <div class="profile-card">
+                    <div class="profile-header-row">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar" id="profileAvatar"><i class="bi bi-person"></i></div>
+                            <button class="btn-outline btn-sm" onclick="document.getElementById('avatarInput').click()" style="margin-top:0.5rem;font-size:0.75rem;padding:3px 10px;"><i class="bi bi-camera"></i> Change Photo</button>
+                            <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="updateAvatar(this)" />
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name" id="profileName">User</div>
+                            <div class="profile-username" id="profileUsername">@woodforest_user</div>
+                            <div class="profile-member-since">Member since —</div>
+                        </div>
+                    </div>
+                    <div class="profile-details-grid" id="profileDetailsGrid">
+                        <div class="profile-detail-item"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="prof-email">—</span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Phone</span><span class="profile-detail-value" id="prof-phone">—</span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Date of Birth</span><span class="profile-detail-value" id="prof-dob">—</span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Login Method</span><span class="profile-detail-value">Username &amp; Password</span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Last Password Change</span><span class="profile-detail-value" id="prof-pass-change">Never</span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Last Login</span><span class="profile-detail-value" id="prof-last-login">—</span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Login Attempts</span><span class="profile-detail-value"></span></span></div>
+                        <div class="profile-detail-item"><span class="profile-detail-label">Two-Factor Auth</span><span class="profile-detail-value" id="prof-2fa"><i class="bi bi-x-octagon" style="color:#dc3545;"></i> —</span></div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-blue" onclick="showSubInTab('profile','prof-personal');return false;"><i class="bi bi-pencil"></i> Edit Personal Info</button>
+                        <button class="btn-outline" onclick="showSubInTab('profile','prof-security');return false;"><i class="bi bi-shield-lock"></i> Security</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-view" id="sub-prof-personal">
+                <h3>Personal Information</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Your personal details are used for account verification and communication.</div>
+                <div class="form-row"><label>First Name:</label><input type="text" value="User" style="width:100%;" /></div>
+                <div class="form-row"><label>Last Name:</label><input type="text" value="User" style="width:100%;" /></div>
+                <div class="form-row"><label>Date of Birth:</label><input type="date" value="" /></div>
+                <div class="form-row"><label>Email Address:</label><input type="email" value="—" style="width:100%;" /></div>
+                <div class="form-row"><label>Primary Phone:</label><input type="tel" value="--" style="width:100%;" /></div>
+                <div class="form-row"><label>Alternate Phone:</label><input type="tel" placeholder="" style="width:100%;" /></div>
+                <div class="form-row"><label>Occupation:</label><input type="text" placeholder="" style="width:100%;" /></div>
+                <div class="form-row"><label>Annual Income:</label><select><option>Select...</option><option>Under $25,000</option><option>$25,000 - $49,999</option><option>$50,000 - $74,999</option><option>$75,000 - $99,999</option><option>$100,000+</option></select></div>
+                <div class="form-actions"><button class="btn-green" onclick="saveProfilePersonal()">Save Changes</button><button class="btn-outline" onclick="showSubInTab('profile','prof-overview');return false;">Cancel</button></div>
+            </div>
+            <div class="sub-view" id="sub-prof-security">
+                <h3>Security &amp; Login Settings</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Manage your password, security questions, and login preferences.</div>
+                <div class="security-section"><h4>Change Password</h4>
+                    <div class="form-row"><label>Current Password:</label><input type="password" style="width:100%;" /></div>
+                    <div class="form-row"><label>New Password:</label><input type="password" style="width:100%;" /></div>
+                    <div class="form-row"><label>Confirm New Password:</label><input type="password" style="width:100%;" /></div>
+                    <div class="form-actions"><button class="btn-green" onclick="saveSecurityPassword()">Update Password</button></div>
+                </div>
+                <div class="security-section"><h4>Security Questions</h4>
+                    <div class="form-row"><label>Q1:</label><span style="color:#666;">—?</span></div>
+                    <div class="form-row"><label>Q2:</label><span style="color:#666;">—?</span></div>
+                    <div class="form-row"><label>Q3:</label><span style="color:#666;">—?</span></div>
+                    <div class="form-actions"><button class="btn-blue" onclick="saveSecurityQuestions()">Change Questions</button></div>
+                </div>
+                <div class="security-section"><h4>Session Timeout</h4>
+                    <div class="form-row"><label>Auto-logout after:</label><select><option>5 minutes</option><option>10 minutes</option><option>15 minutes</option><option>30 minutes</option><option>1 hour</option><option>Never</option></select></div>
+                    <div class="form-actions"><button class="btn-green" onclick="saveSessionTimeout()">Save</button></div>
+                </div>
+                <div class="security-section"><h4>Login Alerts</h4>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> Email alert on new device login</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> SMS alert on failed login attempts</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" /> Email alert on password change</label>
+                    <div class="form-actions"><button class="btn-green" onclick="saveLoginAlerts()">Save Alerts</button></div>
+                </div>
+            </div>
+            <div class="sub-view" id="sub-prof-notifications">
+                <h3>Notification Preferences</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Choose how and when you receive notifications about your account activity.</div>
+                <div class="security-section"><h4>Email Notifications</h4>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> Account balance alerts</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> Large transaction alerts</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> Daily statement summaries</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" /> Promotional offers</label>
+                    <div class="form-actions"><button class="btn-green" onclick="saveEmailNotifs()">Save</button></div>
+                </div>
+                <div class="security-section"><h4>SMS Notifications</h4>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" /> Balance below $0</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> Transactions over $0</label>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" /> Check images posted</label>
+                    <div class="form-actions"><button class="btn-green" onclick="saveSmsNotifs()">Save</button></div>
+                </div>
+            </div>
+            <div class="sub-view" id="sub-prof-addresses">
+                <h3>Address Management</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Your current and previous addresses on file.</div>
+                <div class="security-section"><h4>Current Address (Primary)</h4>
+                    <div class="form-row"><label>Street Address:</label><input type="text" value="—" style="width:100%;" /></div>
+                    <div class="form-row"><label>City:</label><input type="text" value="—" style="width:100%;" /></div>
+                    <div class="form-row"><label>State:</label><select><option selected></option><option>California</option><option>Florida</option><option>Other</option></select></div>
+                    <div class="form-row"><label>ZIP Code:</label><input type="text" value="—" style="width:100%;" /></div>
+                    <div class="form-actions"><button class="btn-green">Update Address</button></div>
+                </div>
+                <div class="security-section"><h4>Mailing Address</h4>
+                    <label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;"><input type="checkbox" checked /> Same as primary address</label>
+                    <div class="form-actions"><button class="btn-blue" onclick="saveMailingAddress()">Update Mailing Address</button></div>
+                </div>
+            </div>
+            <div class="sub-view" id="sub-prof-device">
+                <h3>Connected Devices</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Devices currently logged into your account.</div>
+                <table class="table-basic">
+                    <thead><tr><th>Device</th><th>Location</th><th>Last Active</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td><i class="bi bi-laptop"></i> Chrome on Windows</td><td>—</td><td>Now (This device)</td><td><span style="color:#27ae60;font-weight:600;">Active</span></td><td>—</td></tr>
+                        <tr><td><i class="bi bi-phone"></i> Safari on iPhone</td><td>—</td><td>01/04/0001</td><td><span style="color:#f39c12;font-weight:600;">Inactive</span></td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Device removed');return false;">Remove</a></td></tr>
+                        <tr><td><i class="bi bi-tablet"></i> Firefox on iPad</td><td>—</td><td>01/06/0001</td><td><span style="color:#f39c12;font-weight:600;">Inactive</span></td><td><a href="#" style="color:var(--theme-blue);" onclick="alert('Device removed');return false;">Remove</a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="post-login-body" id="tab-transfers" style="display:none;">
+        <div class="sub-nav">
+            <div class="sub-nav-header">Transfers</div>
+            <ul class="sub-nav-list">
+                <li><a href="" data-sub="tx-history">Transfer History</a></li>
+                <li><a href="" data-sub="upcoming-txfer2">Upcoming Transfers</a></li>
+                <li><a class="active" href="" data-sub="schedule-transfer">Schedule Transfer</a></li>
+                <li><a href="" data-sub="another-user">Transfer to Another Woodforest User</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="sub-view" id="sub-tx-history">
+                <h3>Transfer History</h3>
+                <table class="table-basic">
+                    <thead><tr><th>Date</th><th>From</th><th>To</th><th style="text-align:right;">Amount</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>01/04/0001</td><td>Checking *****</td><td>Savings *****</td><td style="text-align:right;">$0.00</td><td><span style="color:#27ae60;font-weight:600;">Completed</span></td></tr>
+                        <tr><td>01/09/0001</td><td>Checking *****</td><td>Line of Credit *****</td><td style="text-align:right;">$0.00</td><td><span style="color:#27ae60;font-weight:600;">Completed</span></td></tr>
+                        <tr><td>01/14/0001</td><td>Savings *****</td><td>Checking *****</td><td style="text-align:right;">$0.00</td><td><span style="color:#27ae60;font-weight:600;">Completed</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sub-view" id="sub-upcoming-txfer2">
+                <h3>Upcoming Transfers</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> You have no upcoming transfers scheduled.</div>
+            </div>
+            <div class="sub-view active" id="sub-schedule-transfer">
+                <h3>Schedule Transfer</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Schedule one-time or recurring transfers between your eligible accounts.</div>
+                <div class="form-row">
+                    <label>Transfer From:</label>
+                    <select><option>Checking — Balance: $0.00</option><option>Savings — Balance: $0.00</option></select>
+                </div>
+                <div class="form-row">
+                    <label>Transfer To:</label>
+                    <select><option>Savings — Balance: $0.00</option><option>Checking — Balance: $0.00</option><option>Line of Credit — Balance: $0.00</option></select>
+                </div>
+                <div class="form-row">
+                    <label>Amount:</label>
+                    <input type="text" placeholder="0.00" />
+                </div>
+                <div class="form-row">
+                    <label>When (Date):</label>
+                    <input type="date" />
+                </div>
+                <div class="form-row">
+                    <label>Frequency:</label>
+                    <select><option value="one-time">One-time</option><option>Weekly</option><option>Bi-weekly</option><option>Monthly</option></select>
+                </div>
+                <div class="form-row">
+                    <label>Ends:</label>
+                    <select><option>Indefinitely</option><option>After a set count</option><option>On a set date</option></select>
+                </div>
+                <div class="form-row">
+                    <label>Memo (optional):</label>
+                    <input type="text" placeholder="" />
+                </div>
+                <div class="form-actions">
+                    <button class="btn-green">Transfer Funds</button>
+                    <button class="btn-outline" onclick="showSubInTab('transfers','schedule-transfer');return false;">Cancel</button>
+                </div>
+            </div>
+            <div class="sub-view" id="sub-another-user">
+                <h3>Transfer to Another Woodforest User</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Send funds instantly to another Woodforest National Bank customer using their email address or mobile number. No routing number required.</div>
+                <div class="form-row">
+                    <label>Transfer From:</label>
+                    <select>
+                        <option>Checking ***** — Balance: $0.00</option>
+                        <option>Savings ***** — Balance: $0.00</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Recipient Email Address or Mobile Number:</label>
+                    <input type="text" placeholder="" style="width:100%;" />
+                </div>
+                <div class="form-row">
+                    <label>Recipient First Name (for verification):</label>
+                    <input type="text" placeholder="First name as it appears" style="width:100%;" />
+                </div>
+                <div class="form-row">
+                    <label>Amount:</label>
+                    <input type="text" placeholder="0.00" />
+                </div>
+                <div class="form-row">
+                    <label>Memo / Note (optional):</label>
+                    <input type="text" placeholder="" style="width:100%;" />
+                </div>
+                <div style="background:#e8f4fd;padding:0.8rem;border-radius:4px;font-size:0.82rem;color:#222;margin-bottom:0.5rem;"><i class="bi bi-shield-check" style="color:#559e3c;"></i> Funds typically arrive within seconds. Both you and the recipient will receive a confirmation.</div>
+                <div class="form-actions">
+                    <button class="btn-green">Send Funds</button>
+                    <button class="btn-outline" onclick="showSubInTab('transfers','schedule-transfer');return false;">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SERVICE CENTER TAB ===== -->
+    <div class="post-login-body" id="tab-service" style="display:none;">
+        <div class="sub-nav">
+            <div class="sub-nav-header">Service Center</div>
+            <ul class="sub-nav-list">
+                <li><div class="sub-nav-header">Account Services</div></li>
+                <li><a href="" data-sub="svc-newacct">New Account</a></li>
+                <li><a href="" data-sub="svc-estatement">Manage eStatements</a></li>
+                <li><a href="" data-sub="svc-loan">Obtain a Loan Application</a></li>
+                <li><a href="" data-sub="svc-checks">Re-Order Checks</a></li>
+                <li><a href="" data-sub="svc-card">Order Debit Card</a></li>
+                <li><a href="" data-sub="svc-stolen">Report a Lost or Stolen Debit Card</a></li>
+                <li><a href="" data-sub="svc-stop">Request a Stop Payment</a></li>
+                <li><a href="" data-sub="svc-copy">Request a Check Copy</a></li>
+                <li><a href="" data-sub="svc-gift">Get Gift Card Balance</a></li>
+                <li><a href="" data-sub="svc-mobile">View Mobile Website</a></li>
+                <li><div class="sub-nav-header">Security Center</div></li>
+                <li><a href="" data-sub="svc-sec-alert">Manage Security Alerts</a></li>
+                <li><a href="" data-sub="svc-acct-alert">Manage Account Alerts</a></li>
+                <li><a href="" data-sub="svc-sec-q">Manage Security Questions</a></li>
+                <li><a href="" data-sub="svc-change-pass">Change Password</a></li>
+                <li><a href="" data-sub="svc-change-user">Change Username</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="sub-view active" id="sub-svc-overview">
+                <h3>Service Center</h3>
+                <p style="font-size:0.88rem;color:#444;margin-bottom:1rem;">Select an option from the left to manage your accounts and security settings.</p>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> You can open a new account, order checks, manage your debit card, and more — all from this page.</div>
+            </div>
+            <div class="sub-view" id="sub-svc-newacct">
+                <h3>New Account</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Open a new Checking or Savings account online. You will be prompted to complete a four-step process.</div>
+                <div class="form-actions"><button class="btn-green">Open New Account</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-estatement">
+                <h3>Manage eStatements</h3>
+                <p style="font-size:0.88rem;color:#444;">Enroll or manage your electronic statement preferences.</p>
+                <div class="form-actions"><button class="btn-green">Enroll in eStatements</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-loan">
+                <h3>Obtain a Loan Application</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Apply for a new loan or line of credit.</div>
+                <div class="form-actions"><button class="btn-green">Start Application</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-checks">
+                <h3>Re-Order Checks</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Re-order checks for your eligible checking account.</div>
+                <div class="form-actions"><button class="btn-green">Re-Order Checks</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-card">
+                <h3>Order Debit Card</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Order a new debit card or a replacement.</div>
+                <div class="form-actions"><button class="btn-green">Order Debit Card</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-stolen">
+                <h3>Report a Lost or Stolen Debit Card</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Report your debit card as lost or stolen. You will still need to call 1-800-000-0000.</div>
+                <div class="form-actions"><button class="btn-green">Report Card</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-stop">
+                <h3>Request a Stop Payment</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Place a stop payment on a check you have not yet cashed.</div>
+                <div class="form-actions"><button class="btn-green">Place Stop Payment</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-copy">
+                <h3>Request a Check Copy</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Request a copy of a check that has cleared your account.</div>
+                <div class="form-actions"><button class="btn-green">Request Check Copy</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-gift">
+                <h3>Get Gift Card Balance</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Enter your Woodforest gift card number to check the balance.</div>
+                <div class="form-row"><label>Gift Card Number:</label><input type="text" placeholder="Enter gift card number" /></div>
+                <div class="form-actions"><button class="btn-green">Get Balance</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-mobile">
+                <h3>View Mobile Website</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Switch to the mobile version of Online Banking for simplified access.</div>
+                <div class="form-actions"><button class="btn-green" onclick="toggleMobileView()">Switch to Mobile View</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-sec-alert">
+                <h3>Manage Security Alerts</h3>
+                <p style="font-size:0.88rem;color:#444;">Configure alerts for account activity, balance thresholds, and transaction notifications.</p>
+                <table class="table-basic">
+                    <thead><tr><th>Alert</th><th>Method</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Daily Balance Alert</td><td>Email</td><td><span style="color:#27ae60">Active</span></td></tr>
+                        <tr><td>Large Transaction Alert</td><td>SMS</td><td><span style="color:#27ae60">Active</span></td></tr>
+                    </tbody>
+                </table>
+                <div class="form-actions"><button class="btn-blue">Add New Alert</button> <button class="btn-outline">Manage All</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-acct-alert">
+                <h3>Manage Account Alerts</h3>
+                <p style="bi bi-info-circle"></i> <span style="font-size:0.88rem;color:#444;">Configure account-specific alerts for each of your eligible accounts.</span></p>
+                <div class="form-actions"><button class="btn-blue">Add New Alert</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-sec-q">
+                <h3>Manage Security Questions</h3>
+                <p style="font-size:0.88rem;color:#444;">Update your security questions and answers used for password recovery and authentication.</p>
+                <table class="table-basic">
+                    <thead><tr><th>Question</th><th>Updated</th></tr></thead>
+                    <tbody>
+                        <tr><td>—?</td><td>06/15/0000</td></tr>
+                        <tr><td>—?</td><td>06/15/0000</td></tr>
+                        <tr><td>—?</td><td>06/15/0000</td></tr>
+                        <tr><td>—?</td><td>06/15/0000</td></tr>
+                    </tbody>
+                </table>
+                <div class="form-actions"><button class="btn-blue">Edit Questions</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-change-pass">
+                <h3>Change Password</h3>
+                <p style="font-size:0.88rem;color:#444;">For security purposes, we recommend changing your password every 90 days.</p>
+                <div class="form-row"><label>Current Username:</label><input type="text" placeholder="Enter your username" /></div>
+                <div class="form-row"><label>New Password:</label><input type="password" placeholder="Enter new password" /></div>
+                <div class="form-row"><label>Confirm Password:</label><input type="password" placeholder="Re-enter new password" /></div>
+                <div class="form-actions"><button class="btn-green">Change Password</button> <button class="btn-outline" onclick="showSubInTab('service','svc-change-pass');return false;">Cancel</button></div>
+            </div>
+            <div class="sub-view" id="sub-svc-change-user">
+                <h3>Change Username</h3>
+                <p style="font-size:0.88rem;color:#444;">Your username must be 3 to 32 characters and different from your password.</p>
+                <div class="form-row"><label>Answer your security question:</label><input type="text" placeholder="Enter answer" /></div>
+                <div class="form-row"><label>New Username:</label><input type="text" placeholder="Enter new username" /></div>
+                <div class="form-row"><label>Confirm Username:</label><input type="text" placeholder="Re-enter new username" /></div>
+                <div class="form-actions"><button class="btn-green">Change Username</button> <button class="btn-outline" onclick="showSubInTab('service','svc-change-user');return false;">Cancel</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MESSAGE CENTER TAB ===== -->
+    <div class="post-login-body" id="tab-messages" style="display:none;">
+        <div class="sub-nav">
+            <div class="sub-nav-header">Messages</div>
+            <ul class="sub-nav-list">
+                <li><a class="active" href="" data-sub="messages-inbox">Inbox</a></li>
+                <li><a href="" data-sub="messages-sent">Sent</a></li>
+                <li><a href="" data-sub="messages-archive">Archive</a></li>
+                <li><a href="" data-sub="messages-trash">Trash</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="sub-view active" id="sub-messages-inbox">
+                <div class="page-header">
+                    <h3>Secure Message Center</h3>
+                    <div class="header-actions">
+                        <button class="btn-blue btn-sm"><i class="bi bi-pencil"></i> Compose New Message</button>
+                    </div>
+                </div>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> All messages to and from Woodforest are sent via an encrypted channel.</div>
+                <table class="table-basic">
+                    <thead><tr><th>Date</th><th>Subject</th><th>Account</th><th style="text-align:right;">Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>01/02/0001</td><td>—</td><td>Checking *****</td><td style="text-align:right;"><span style="color:#27ae60;font-weight:600;">—</span></td></tr>
+                        <tr><td>01/09/0001</td><td>—</td><td>Checking *****</td><td style="text-align:right;"><span style="color:#e67e22;font-weight:600;">—</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sub-view" id="sub-messages-sent">
+                <h3>Sent Messages</h3>
+                <table class="table-basic">
+                    <thead><tr><th>Date</th><th>Subject</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>01/02/0001</td><td>—</td><td>—</td></tr>
+                        <tr><td>01/09/0001</td><td>—</td><td>—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sub-view" id="sub-messages-archive">
+                <h3>Archived Messages</h3>
+                <p style="font-size:0.88rem;color:#888;text-align:center;padding:2rem 0;">No archived messages.</p>
+            </div>
+            <div class="sub-view" id="sub-messages-trash">
+                <h3>Trash</h3>
+                <p style="font-size:0.88rem;color:#888;text-align:center;padding:2rem 0;">No deleted messages.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BILLPAY TAB (standalone) ===== -->
+    <div class="post-login-body" id="tab-billpay" style="display:none;">
+        <div class="sub-nav">
+            <div class="sub-nav-header">Bill Pay</div>
+            <ul class="sub-nav-list">
+                <li><a class="active" href="" data-sub="billpay-main">Bill Pay Home</a></li>
+                <li><a href="" data-sub="billpay-payee-add">Add a Payee</a></li>
+                <li><a href="" data-sub="billpay-multi">Multi-Pay</a></li>
+                <li><a href="" data-sub="billpay-single">Single Pay</a></li>
+                <li><a href="" data-sub="billpay-history">Payment History</a></li>
+                <li><a href="" data-sub="billpay-upcoming">Upcoming Payments</a></li>
+                <li><a href="" data-sub="billpay-auto">Auto-Pay</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="sub-view active" id="sub-billpay-main">
+                <h3>Bill Pay</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Select a task to manage your bill payments.</div>
+                <ul class="billpay-nav-list">
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-payee-add');return false;"><i class="bi bi-plus-circle"></i> Add a Payee</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-multi');return false;"><i class="bi bi-check2-all"></i> Multi-Pay</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-single');return false;"><i class="bi bi-check2"></i> Single Pay</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-history');return false;"><i class="bi bi-clock-history"></i> Payment History</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-upcoming');return false;"><i class="bi bi-calendar-event"></i> Upcoming Payments</a></li>
+                    <li><a href="#" onclick="showSubInTab('billpay','billpay-auto');return false;"><i class="bi bi-gear"></i> Auto-Pay</a></li>
+                </ul>
+            </div>
+            <div class="sub-view" id="sub-billpay-payee-add">
+                <h3>Add a Payee</h3>
+                <div class="form-row"><label>Payee Type:</label><select><option>Company</option><option>Individual</option></select></div>
+                <div class="form-row"><label>Payee Name:</label><input type="text" placeholder="Enter payee name" /></div>
+                <div class="form-row"><label>Address:</label><input type="text" placeholder="Street, City, State, ZIP" /></div>
+                <div class="form-row"><label>Phone:</label><input type="text" placeholder="XXX-XXX-XXXX" /></div>
+                <div class="form-row"><label>Funding Account:</label><select><option>Checking</option><option>Savings</option></select></div>
+                <div class="form-actions"><button class="btn-green">Add Payee</button> <button class="btn-outline" onclick="showSubInTab('billpay','billpay-main')">Cancel</button></div>
+            </div>
+            <div class="sub-view" id="sub-billpay-multi">
+                <h3>Multi-Pay</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> Set up payments for multiple payees at once.</div>
+                <table class="table-basic">
+                    <thead><tr><th>Payee</th><th>Amount</th><th>Pay From</th><th>Send On</th></tr></thead>
+                    <tbody><tr><td>— (no payees yet) —</td><td colspan="3" style="text-align:center;color:#999;">Add a payee first to begin paying bills.</td></tr></tbody>
+                </table>
+                <div class="form-actions"><button class="btn-green">Pay All</button> <button class="btn-outline" onclick="showSubInTab('billpay','billpay-main')">Cancel</button></div>
+            </div>
+            <div class="sub-view" id="sub-billpay-single">
+                <h3>Single Pay</h3>
+                <div class="form-row"><label>Select Payee:</label><select><option>-- Select a payee --</option><option>Electric Utility</option><option>Water Utility</option><option>Insurance Provider</option><option>Phone Provider</option></select></div>
+                <div class="form-row"><label>Amount:</label><input type="text" placeholder="0.00" /></div>
+                <div class="form-row"><label>Pay From:</label><select><option>Checking</option><option>Savings</option></select></div>
+                <div class="form-row"><label>Send On:</label><input type="date" /></div>
+                <div class="form-actions"><button class="btn-green">Pay Now</button> <button class="btn-outline" onclick="showSubInTab('billpay','billpay-main')">Cancel</button></div>
+            </div>
+            <div class="sub-view" id="sub-billpay-history">
+                <h3>Payment History</h3>
+                <table class="table-basic">
+                    <thead><tr><th>Date</th><th>Payee</th><th>Amount</th><th style="text-align:right;">Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>01/06/0001</td><td>Electric Utility</td><td>$0.00</td><td style="text-align:right;"><span style="color:#27ae60;font-weight:600;">Paid</span></td></tr>
+                        <tr><td>01/12/0001</td><td>City Water Department</td><td>$0.00</td><td style="text-align:right;"><span style="color:#27ae60;font-weight:600;">Paid</span></td></tr>
+                        <tr><td>01/13/0001</td><td>Insurance Provider</td><td>$0.00</td><td style="text-align:right;"><span style="color:#27ae60;font-weight:600;">Paid</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sub-view" id="sub-billpay-upcoming">
+                <h3>Upcoming Payments</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> You have no upcoming payments scheduled.</div>
+            </div>
+            <div class="sub-view" id="sub-billpay-auto">
+                <h3>Auto-Pay (Recurring Payments)</h3>
+                <div class="alert-info"><i class="bi bi-info-circle"></i> No automatic (recurring) payments are currently set up.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MOBILE VIEW ===== -->
+    <div class="mobile-view" id="mobileView">
+        <div class="mobile-header">
+            <div class="mob-top-row">
+                <img src="https://www.woodforest.com/media/xijhunfv/wnb-logo.png" alt="Woodforest National Bank" />
+                <span class="mob-welcome-text" id="mob-user-display">User</span>
+                <div class="mob-btn-group">
+                    <button class="mob-logout" id="mob-logout">Log Off</button>
+                    <button class="mob-logout" onclick="toggleMobileView()">Regular Site</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mob-main-nav">
+            <div class="mobile-nav-icons">
+                <button class="mob-icon-btn" onclick="showMobSection('mob-accounts')">
+                    <i class="bi bi-bank"></i>
+                    <span>View Accounts</span>
+                </button>
+                <button class="mob-icon-btn" onclick="showMobSection('mob-transfers')">
+                    <i class="bi bi-arrow-left-right"></i>
+                    <span>Manage Transfers</span>
+                </button>
+                <button class="mob-icon-btn" onclick="showMobSection('mob-paybill')">
+                    <i class="bi bi-receipt"></i>
+                    <span>Pay Bills</span>
+                </button>
+            </div>
+
+            <div class="mob-content-area">
+                <div class="mob-total-bar">
+                    <span class="mob-total-label">Combined Total Balance</span>
+                    <span class="mob-total-value" id="mob-combined-balance">$0.00</span>
+                </div>
+
+                <div id="mob-accounts" class="mob-section active">
+                    <div class="mob-section-title">Accounts</div>
+                    <div id="mob-accounts-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div id="mob-transfers" class="mob-section">
+                    <div class="mob-section-title">Manage Transfers</div>
+                    <div class="mob-table-wrap">
+                        <table class="table-basic">
+                            <thead><tr><th>Date</th><th>From</th><th>To</th><th style="text-align:right;">Amount</th></tr></thead>
+                            <tbody>
+                                <tr><td>01/04/0001</td><td>Checking *****</td><td>Savings *****</td><td style="text-align:right;">$0.00</td></tr>
+                                <tr><td>01/09/0001</td><td>Checking *****</td><td>Line of Credit *****</td><td style="text-align:right;">$0.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="mob-paybill" class="mob-section">
+                    <div class="mob-section-title">Pay Bills</div>
+                    <p style="font-size:0.9rem;color:#666;margin-bottom:1rem;">You must access the regular site to add payees. Use <strong>"Switch to Regular Site"</strong> below to manage payees.</p>
+                    <div class="mob-table-wrap">
+                        <table class="table-basic">
+                            <thead><tr><th>Date</th><th>Payee</th><th style="text-align:right;">Amount</th></tr></thead>
+                            <tbody>
+                                <tr><td>01/06/0001</td><td>Electric Utility</td><td style="text-align:right;">$0.00</td></tr>
+                                <tr><td>01/12/0001</td><td>Water Utility</td><td style="text-align:right;">$0.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:1.25rem;">
+                        <button class="btn-green" onclick="toggleMobileView()" style="width:100%;">Switch to Regular Site</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="dash-footer">
+        © 2026 Woodforest National Bank &nbsp;
+        <img src="https://www.woodforest.com/images/fdic-light.png" alt="FDIC" style="height:14px; vertical-align:middle;" />
+        &nbsp;| Equal Housing Lender
+        <img src="https://www.woodforest.com/images/eoe_logo.gif" alt="EHL" style="height:14px; vertical-align:middle;" />
+        <br/>
+        <a href="/woodforest-banking.html">Home</a> | <a href="#">Privacy</a | <a href="#">Terms & Conditions</a>
+    </div>
+
+    <script>
+        // ===== DATA =====
+        var ACCOUNTS_DATA = {
+            checking: {
+                title: 'Checking & Savings',
+                accounts: [
+                    { name: 'Personal Sterling Advantage', number: '*****', balance: 0.00, type: 'checking' },
+                    { name: 'Second Chance Checking', number: '*****', balance: 0.00, type: 'checking' },
+                    { name: 'Savings', number: '*****', balance: 0.00, type: 'savings' }
+                ]
+            },
+            cd: {
+                title: 'Certificates of Deposit',
+                accounts: [
+                    { name: '12-Month CD', number: '*****', balance: 0.00, type: 'cd' },
+                    { name: '18-Month CD', number: '*****', balance: 0.00, type: 'cd' }
+                ]
+            },
+            loan: {
+                title: 'Loans',
+                accounts: [
+                    { name: 'Auto Loan', number: '*****', balance: 0.00, type: 'loan' },
+                    { name: 'Line of Credit', number: '*****', balance: 0.00, type: 'loan' }
+                ]
+            }
+        };
+
+        var TRANSACTION_DATA = {
+            '*****': [
+                { date: '01/01/0001', desc: 'DIRECT DEPOSIT - EMPLOYER', amount: 0.00, type: 'credit' },
+                { date: '01/02/0001', desc: 'PURCHASE - GROCERY STORE', amount: 0.00, type: 'debit' },
+                { date: '01/02/0001', desc: 'PURCHASE - GROCERY STORE', amount: 0.00, type: 'debit' },
+                { date: '01/03/0001', desc: 'ATM WDL  Woodforest Natl Bank', amount: 0.00, type: 'debit' },
+                { date: '01/04/0001', desc: 'TRANSFER TO  SAVINGS *****', amount: 0.00, type: 'debit' },
+                { date: '01/05/0001', desc: 'PURCHASE - GROCERY STORE', amount: 0.00, type: 'debit' },
+                { date: '01/06/0001', desc: 'CHECK  *****  ELECTRIC BILL', amount: 0.00, type: 'debit' },
+                { date: '01/07/0001', desc: 'PURCHASE - RETAIL STORE', amount: 0.00, type: 'debit' },
+                { date: '01/08/0001', desc: 'PURCHASE - GROCERY STORE', amount: 0.00, type: 'debit' },
+                { date: '01/09/0001', desc: 'TRANSFER TO  LINE OF CREDIT *****', amount: 0.00, type: 'debit' }
+            ],
+            '*****': [
+                { date: '01/02/0001', desc: 'PURCHASE - GROCERY STORE', amount: 0.00, type: 'debit' },
+                { date: '01/03/0001', desc: 'DIRECT DEPOSIT - EMPLOYER', amount: 0.00, type: 'credit' },
+                { date: '01/04/0001', desc: 'PURCHASE - GROCERY STORE', amount: 0.00, type: 'debit' },
+                { date: '01/05/0001', desc: 'PURCHASE - GAS STATION', amount: 0.00, type: 'debit' },
+                { date: '01/06/0001', desc: 'PURCHASE - CONVENIENCE STORE', amount: 0.00, type: 'debit' }
+            ],
+            '*****': [
+                { date: '01/01/0001', desc: 'INTEREST  PAID  01/14/0001', amount: 0.00, type: 'credit' },
+                { date: '01/04/0001', desc: 'TRANSFER FROM  CHECKING *****', amount: 0.00, type: 'credit' },
+                { date: '01/09/0001', desc: 'TRANSFER TO  CHECKING *****', amount: 0.00, type: 'debit' }
+            ],
+            '*****': [{ date: '01/14/0001', desc: 'INTEREST  PAID  01/14/0001', amount: 0.00, type: 'credit' }],
+            '*****': [{ date: '01/14/0001', desc: 'INTEREST  PAID  01/14/0001', amount: 0.00, type: 'credit' }],
+            '*****': [{ date: '01/14/0001', desc: 'PAYMT  AUTO LOAN', amount: 0.00, type: 'debit' }],
+            '*****': [
+                { date: '01/09/0001', desc: 'TRANSFER FROM  CHECKING *****', amount: 0.00, type: 'credit' },
+                { date: '01/14/0001', desc: 'PAYMT  CREDIT  01/14/0001', amount: 0.00, type: 'debit' }
+            ]
+        };
+
+        var currentTab = 'accounts';
+
+        // ===== TAB SWITCHING =====
+        document.querySelectorAll('#tab-list a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchTab(this.getAttribute('data-tab'));
+            });
+        });
+
+        function switchTab(tabId) {
+            history.pushState({tab: tabId}, '', '#' + tabId);
+            document.querySelectorAll('.post-login-body').forEach(function(el) {
+                el.style.display = 'none';
+            });
+            document.getElementById('tab-' + tabId).style.display = '';
+            document.querySelectorAll('#tab-list a').forEach(function(a) {
+                a.classList.remove('active');
+            });
+            document.querySelector('#tab-list a[data-tab="' + tabId + '"]').classList.add('active');
+            resetSubNav(tabId);
+            currentTab = tabId;
+            document.getElementById('mobileView').classList.remove('active');
+        }
+
+        function resetSubNav(tabId) {
+            var body = document.getElementById('tab-' + tabId);
+            if (!body) return;
+            var activeLink = body.querySelector('.sub-nav-list a.active');
+            if (activeLink) return;
+            var first = body.querySelector('.sub-nav-list a[data-sub]');
+            if (first) first.classList.add('active');
+        }
+
+        // ===== SUB-VIEW SWITCHING (within a tab) =====
+        function showSubInTab(tabId, subId) {
+            history.pushState({tab: tabId, sub: subId}, '', '#' + tabId + '/' + subId);
+            var body = document.getElementById('tab-' + tabId);
+            if (!body) return;
+            body.querySelectorAll('.sub-view').forEach(function(v) {
+                v.classList.remove('active');
+            });
+            var target = document.getElementById('sub-' + subId);
+            if (target) target.classList.add('active');
+            body.querySelectorAll('.sub-nav-list a').forEach(function(a) {
+                a.classList.remove('active');
+                if (a.getAttribute('data-sub') === subId) {
+                    a.classList.add('active');
+                }
+            });
+        }
+
+        // Sub-nav click handlers
+        document.querySelectorAll('.sub-nav-list a[data-sub]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var tabId = this.closest('.post-login-body').id.replace('tab-', '');
+                showSubInTab(tabId, this.getAttribute('data-sub'));
+            });
+        });
+        // ===== POPSTATE — browser back/forward
+        window.addEventListener('popstate', function(e) {
+            var state = e.state || {};
+            var tabId = state.tab || 'accounts';
+            var subId = state.sub || null;
+            document.querySelectorAll('.post-login-body').forEach(function(el) {
+                el.style.display = 'none';
+            });
+            var targetBody = document.getElementById('tab-' + tabId);
+            if (targetBody) targetBody.style.display = '';
+            document.querySelectorAll('#tab-list a').forEach(function(a) {
+                a.classList.remove('active');
+                if (a.getAttribute('data-tab') === tabId) {
+                    a.classList.add('active');
+                }
+            });
+            if (subId) {
+                var body = document.getElementById('tab-' + tabId);
+                if (body) {
+                    body.querySelectorAll('.sub-view').forEach(function(v) {
+                        v.classList.remove('active');
+                    });
+                    var subEl = document.getElementById('sub-' + subId);
+                    if (subEl) subEl.classList.add('active');
+                    body.querySelectorAll('.sub-nav-list a').forEach(function(a) {
+                        a.classList.remove('active');
+                        if (a.getAttribute('data-sub') === subId) {
+                            a.classList.add('active');
+                        }
+                    });
+                }
+            } else {
+                resetSubNav(tabId);
+            }
+            currentTab = tabId;
+        });
+
+        // ===== RENDER ACCOUNTS =====
+        function renderAccounts() {
+            var container = document.getElementById('accounts-content');
+            var html = '';
+            var searchVal = (document.getElementById('search-accounts') || {}).value || '';
+
+            for (var groupKey in ACCOUNTS_DATA) {
+                var group = ACCOUNTS_DATA[groupKey];
+                var filtered = group.accounts.filter(function(acct) {
+                    if (!searchVal) return true;
+                    var needle = searchVal.toLowerCase();
+                    return acct.name.toLowerCase().indexOf(needle) !== -1 || acct.number.indexOf(needle) !== -1;
+                });
+                if (filtered.length === 0) continue;
+
+                html += '<div class="acct-group" id="group-' + groupKey + '">';
+                html += '<div class="acct-group-title" onclick="toggleGroup(this)">';
+                html += '<span>' + group.title + ' (' + filtered.length + ')</span>';
+                html += '<i class="bi bi-chevron-down"></i>';
+                html += '</div>';
+                html += '<div class="acct-group-header">';
+
+                for (var i = 0; i < filtered.length; i++) {
+                    var acct = filtered[i];
+                    var balClass = acct.balance < 0 ? 'negative' : '';
+                    var availText = acct.type === 'loan' ? '<div class="bal-available">Owed</div>' : '';
+                    var safeNum = acct.number.replace(/[^a-zA-Z0-9]/g, '');
+                    html += '<div class="acct-entry" id="acct-' + safeNum + '">';
+                    html += '<div class="acct-entry-head" onclick="toggleAccount(this)">';
+                    html += '<i class="bi bi-chevron-right acct-toggle-icon"></i>';
+                    html += '<div class="acct-info">';
+                    html += '<span class="acct-name">' + acct.name + '</span><br/>';
+                    html += '<span class="acct-num">Account: <span class="acct-num-visible" title="Click eye icon to reveal">' + acct.number + '</span> <i class="bi bi-eye-slash acct-num-toggle" style="cursor:pointer;font-size:0.75rem;margin-left:4px;" title="Click to show full account number"></i></span>';
+                    html += '</div>';
+                    html += '<div class="acct-bal">';
+                    html += '<div class="bal-amount ' + balClass + '">' + formatCurrency(acct.balance) + '</div>';
+                    html += availText;
+                    html += '</div>';
+                    html += '</div>';
+
+                    html += '<div class="acct-entry-actions">';
+                    html += '<div class="actions-grid">';
+                    var displayName = acct.name.replace(/'/g, "\\'");
+                    html += '<button class="action-btn" onclick="viewRecentTx(\'' + acct.number + '\',\'' + displayName + '\')"><i class="bi bi-clock-history"></i> Recent Transactions</button>';
+                    html += '<button class="action-btn" onclick="viewStatements()"><i class="bi bi-file-earmark-text"></i> Statements</button>';
+                    html += '<button class="action-btn" onclick="viewAllActivity()"><i class="bi bi-list-ul"></i> View All Activity</button>';
+                    html += '<button class="action-btn" onclick="quickTransferFrom(\'' + acct.number + '\')"><i class="bi bi-arrow-up-circle"></i> Quick Transfer From</button>';
+                    html += '<button class="action-btn" onclick="quickTransferTo(\'' + acct.number + '\')"><i class="bi bi-arrow-down-circle"></i> Quick Transfer To</button>';
+                    html += '<button class="action-btn" onclick="payBillFrom()"><i class="bi bi-receipt"></i> Pay A Bill</button>';
+                    html += '<button class="action-btn" onclick="viewAccountDetail()"><i class="bi bi-gear"></i> Edit Preferences</button>';
+                    html += '<button class="action-btn" onclick="showView(\'messages\',\'messages-inbox\')"><i class="bi bi-envelope"></i> Send A Message</button>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+                html += '</div></div>';
+            }
+            container.innerHTML = html || '<p style="color:#999;text-align:center;padding:2rem 0;">No accounts match your search.</p>';
+        }
+
+        function formatCurrency(val) {
+            var abs = Math.abs(val);
+            var formatted = '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return val < 0 ? '(' + formatted + ')' : formatted;
+        }
+
+        function toggleGroup(el) {
+            el.classList.toggle('collapsed');
+        }
+
+        function toggleAccount(el) {
+            el.closest('.acct-entry').classList.toggle('expanded');
+        }
+
+        function filterAccounts() {
+            try { renderAccounts(); } catch(e) { console.error(e); }
+        }
+
+        function viewRecentTx(number, name) {
+            var txns = TRANSACTION_DATA[number] || [];
+            var html = '<table class="table-basic"><thead><tr><th>Date</th><th>Description</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+            for (var i = 0; i < txns.length; i++) {
+                var tx = txns[i];
+                var amtClass = tx.amount > 0 ? 'amount-credit' : 'amount-debit';
+                var amtStr = tx.amount > 0 ? '+' + formatCurrency(tx.amount) : formatCurrency(tx.amount);
+                html += '<tr><td>' + tx.date + '</td><td>' + tx.desc + '</td><td style="text-align:right;" class="' + amtClass + '">' + amtStr + '</td></tr>';
+            }
+            html += '</tbody></table>';
+            document.getElementById('recent-tx-content').innerHTML = html;
+            showSubInTab('accounts', 'recent-tx');
+        }
+
+        function viewAllActivity() {
+            showSubInTab('accounts', 'all-activity');
+        }
+
+        function viewStatements() {
+            showSubInTab('accounts', 'statements');
+        }
+
+        function quickTransferFrom(acctNum) {
+            showSubInTab('transfers', 'schedule-transfer');
+            switchTab('transfers');
+        }
+
+        function quickTransferTo(acctNum) {
+            showSubInTab('transfers', 'schedule-transfer');
+            switchTab('transfers');
+        }
+
+        function payBillFrom() {
+            showSubInTab('accounts', 'bill-pay');
+        }
+
+        function viewAccountDetail() {
+            alert('Edit Preferences: hide account, prevent transfers/payments');
+        }
+
+        function showView(tabId, subId) {
+            switchTab(tabId);
+            showSubInTab(tabId, subId);
+        }
+
+        // ===== BALANCE TOTALS =====
+        function computeTotals() {
+            var totalChecking = 0, totalSaving = 0, totalCd = 0, totalLoan = 0;
+            for (var key in ACCOUNTS_DATA) {
+                for (var i = 0; i < ACCOUNTS_DATA[key].accounts.length; i++) {
+                    var acct = ACCOUNTS_DATA[key].accounts[i];
+                    if (acct.type === 'checking') totalChecking += acct.balance;
+                    else if (acct.type === 'savings') totalSaving += acct.balance;
+                    else if (acct.type === 'cd') totalCd += acct.balance;
+                    else if (acct.type === 'loan') totalLoan += acct.balance;
+                }
+            }
+            var combined = totalChecking + totalSaving + totalCd + totalLoan;
+            var html = '';
+            html += '<div class="bal-row"><span class="bal-label">Total Checking:</span> <span class="bal-value">' + formatCurrency(totalChecking) + '</span></div>';
+            html += '<div class="bal-row"><span class="bal-label">Total Savings:</span> <span class="bal-value">' + formatCurrency(totalSaving) + '</span></div>';
+            html += '<div class="bal-row"><span class="bal-label">Total CDs:</span> <span class="bal-value">' + formatCurrency(totalCd) + '</span></div>';
+            html += '<div class="bal-row"><span class="bal-label">Total Loans:</span> <span class="bal-value">' + formatCurrency(totalLoan) + '</span></div>';
+            html += '<div class="bal-row bal-total"><span class="bal-label">Total Liabilities:</span> <span class="bal-value">' + formatCurrency(totalLoan) + '</span></div>';
+            html += '<div class="bal-row bal-total"><span class="bal-label">Combined Total:</span> <span class="bal-value">' + formatCurrency(combined) + '</span></div>';
+            document.getElementById('balance-totals').innerHTML = html;
+            document.getElementById('mob-combined-balance').textContent = formatCurrency(combined);
+            renderMobileAccounts();
+        }
+
+        // ===== MOBILE VIEW =====
+        function showMobSection(sectionId) {
+            document.querySelectorAll('.mob-section').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            var target = document.getElementById(sectionId);
+            if (target) target.classList.add('active');
+        }
+
+        function toggleMobileView() {
+            var mv = document.getElementById('mobileView');
+            if (mv.classList.contains('active')) {
+                // Switch back to desktop
+                mv.classList.remove('active');
+                var lastTab = localStorage.getItem('woodforest_last_tab') || 'accounts';
+                switchTab(lastTab);
+                document.getElementById('mob-main-nav').style.display = '';
+                // Show all desktop elements
+                document.querySelector('.post-login-header').style.display = '';
+                document.querySelector('.tab-bar').style.display = '';
+                document.querySelector('.dash-footer').style.display = '';
+            } else {
+                // Show mobile view
+                mv.classList.add('active');
+                document.querySelectorAll('.post-login-body').forEach(function(el) {
+                    el.style.display = 'none';
+                });
+                document.querySelector('.post-login-header').style.display = 'none';
+                document.querySelector('.tab-bar').style.display = 'none';
+                document.querySelector('.dash-footer').style.display = 'none';
+                document.querySelectorAll('#tab-list a').forEach(function(a) {
+                    a.classList.remove('active');
+                });
+                document.getElementById('mob-main-nav').style.display = '';
+                showMobSection('mob-accounts');
+            }
+        }
+
+        function renderMobileAccounts() {
+            var html = '';
+            for (var key in ACCOUNTS_DATA) {
+                var group = ACCOUNTS_DATA[key];
+                html += '<div class="mob-section-title">' + group.title + '</div>';
+                for (var i = 0; i < group.accounts.length; i++) {
+                    var acct = group.accounts[i];
+                    var balClass = acct.balance < 0 ? 'negative' : '';
+                    html += '<div class="mob-account-card">';
+                    html += '<div class="mob-acct-head">';
+                    html += '<span class="mob-acct-name">' + acct.name + '</span>';
+                    html += '<span class="mob-acct-bal ' + balClass + '">' + formatCurrency(acct.balance) + '</span>';
+                    html += '</div>';
+                    html += '<div class="mob-acct-num">Account: ' + acct.number + '</div>';
+                    html += '</div>';
+                }
+            }
+            document.getElementById('mob-accounts-list').innerHTML = html;
+        }
+
+        // Auto-login on page load if credentials exist
+        (function() {
+            var user = localStorage.getItem('woodforest_user');
+            var lastLogin = localStorage.getItem('woodforest_last_login');
+            console.log('Auto-login IIFE running, user:', user);
+            if (lastLogin) {
+                document.getElementById('last-login-display').textContent = lastLogin;
+                document.getElementById('last-login-detail').textContent = lastLogin;
+            }
+            // Auto-show dashboard if already logged in
+            if (user) {
+                var now = new Date();
+                var storedTime = localStorage.getItem('woodforest_login_time');
+                var valid = true;
+                if (storedTime) {
+                    var last = new Date(parseInt(storedTime));
+                    var hoursSince = (now - last) / (1000 * 60 * 60);
+                    if (hoursSince > 24 || isNaN(hoursSince)) {
+                        // Expired or invalid — clear and show dashboard anyway
+                        localStorage.removeItem('woodforest_login_time');
+                    }
+                }
+                // Always show dashboard if user exists
+                document.getElementById('user-display').textContent = user;
+                document.getElementById('mob-user-display').textContent = user;
+                document.getElementById('dashboardMain').style.display = '';
+                try { renderAccounts(); } catch(e) { console.error(e); }
+                try { computeTotals(); } catch(e) { console.error(e); }
+            }
+        })();
+
+        // Log off
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('woodforest_user');
+            localStorage.removeItem('woodforest_last_login');
+            localStorage.removeItem('woodforest_login_time');
+            localStorage.removeItem('woodforest_last_tab');
+            window.location.href = '/woodforest-banking-login.html';
+        });
+        document.getElementById('mob-logout').addEventListener('click', function() {
+            localStorage.removeItem('woodforest_user');
+            localStorage.removeItem('woodforest_last_login');
+            localStorage.removeItem('woodforest_login_time');
+            localStorage.removeItem('woodforest_last_tab');
+            window.location.href = '/woodforest-banking-login.html';
+        });
+
+        // Save last active tab before login
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.setItem('woodforest_last_tab', currentTab);
+        });
+
+        // Account number toggle — show/hide full number
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('acct-num-toggle')) {
+                var span = e.target.previousElementSibling;
+                var isMasked = span.classList.contains('masked');
+                if (isMasked) {
+                    var raw = span.textContent;
+                    span.textContent = raw.replace(/\*/g, '0').substring(0, 1) + raw.replace(/\*/g, '0').substring(1);
+                    span.classList.remove('masked');
+                    e.target.classList.remove('bi-eye-slash');
+                    e.target.classList.add('bi-eye');
+                    e.target.title = 'Hide full number';
+                } else {
+                    var masked = span.textContent.replace(/[0-9]/g, '*').substring(0, span.textContent.length);
+                    var first = span.textContent[0];
+                    var last4 = span.textContent.slice(-4) || '0000';
+                    span.textContent = first + '*'.repeat(span.textContent.length - 4) + last4;
+                    span.classList.add('masked');
+                    e.target.classList.remove('bi-eye');
+                    e.target.classList.add('bi-eye-slash');
+                    e.target.title = 'Show full number';
+                }
+            }
+        });
+
+        // Avatar image upload
+        function updateAvatar(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var avatar = document.getElementById('profileAvatar');
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Profile';
+                    avatar.innerHTML = '';
+                    avatar.appendChild(img);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        // ===== TOAST NOTIFICATION =====
+        function showToast(message, type) {
+            // Remove existing toasts
+            var existing = document.getElementById('toast-container');
+            if (existing) existing.remove();
+
+            var toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            toastContainer.style.cssText = 'position:fixed;top:1.5rem;right:1.5rem;z-index:10000;display:flex;flex-direction:column;gap:0.5rem;';
+
+            var toast = document.createElement('div');
+            var bgColor = type === 'success' ? '#27ae60' : '#e74c3c';
+            var icon = type === 'success' ? '\u2713 ' : '\u2717 ';
+            toast.style.cssText = 'background:' + bgColor + ';color:white;padding:0.85rem 1.2rem;border-radius:6px;font-size:0.88rem;font-weight:500;box-shadow:0 3px 12px rgba(0,0,0,0.2);min-width:280px;animation:slideInRight 0.3s ease-out;max-width:400px;';
+            toast.innerHTML = '<span style="font-weight:700;margin-right:6px;">' + icon + '</span> ' + message;
+            toastContainer.appendChild(toast);
+
+            document.body.appendChild(toastContainer);
+
+            // Add slide-in animation
+            if (!document.getElementById('toast-anim')) {
+                var style = document.createElement('style');
+                style.id = 'toast-anim';
+                style.textContent = '@keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
+                document.head.appendChild(style);
+            }
+
+            setTimeout(function() {
+                if (toastContainer && toastContainer.parentNode) {
+                    toastContainer.parentNode.removeChild(toastContainer);
+                }
+            }, 3500);
+        }
+
+        // ===== SAVE: Personal Info =====
+        function saveProfilePersonal() {
+            var firstName = document.querySelector('#sub-prof-personal input[placeholder]') || document.querySelectorAll('#sub-prof-personal input')[0];
+            var values = document.querySelectorAll('#sub-prof-personal input, #sub-prof-personal select');
+            if (values.length >= 2) {
+                var nameVal = values[0].value || 'User';
+                document.getElementById('profileName').textContent = nameVal;
+                document.getElementById('profileUsername').textContent = '@' + nameVal.toLowerCase().replace(/\s+/g, '_');
+            }
+            if (values.length >= 4) {
+                document.getElementById('prof-email').textContent = values[3].value || '—';
+            }
+            if (values.length >= 5) {
+                document.getElementById('prof-phone').textContent = values[4].value || '—';
+            }
+            showToast('Personal information saved successfully.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: Security Questions =====
+        function saveSecurityQuestions() {
+            showToast('Security questions updated successfully.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: Session Timeout =====
+        function saveSessionTimeout() {
+            showToast('Session timeout saved successfully.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: Login Alerts =====
+        function saveLoginAlerts() {
+            showToast('Login alert preferences saved.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: Email Notifications =====
+        function saveEmailNotifs() {
+            showToast('Email notification preferences saved.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: SMS Notifications =====
+        function saveSmsNotifs() {
+            showToast('SMS notification preferences saved.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: Update Password =====
+        function saveSecurityPassword() {
+            document.getElementById('prof-pass-change').textContent = 'Just now';
+            showToast('Password updated successfully.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+        // ===== SAVE: Mailing Address =====
+        function saveMailingAddress() {
+            showToast('Mailing address updated successfully.', 'success');
+            setTimeout(function() {
+                showSubInTab('profile', 'prof-overview');
+            }, 1500);
+        }
+
+    </script>
+</div>
+
+</body>
+</html>
