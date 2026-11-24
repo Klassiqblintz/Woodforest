@@ -405,7 +405,8 @@
             font-size: 0.7rem !important;
         }
 
-        .sub-view { display: none; }
+        /* Legacy sub-views - hidden when new dashboard is active */
+        .main-content > .sub-view { display: none; }
         .sub-view.active { display: block; }
         .sub-view h3 {
             font-size: 1.15rem;
@@ -1694,7 +1695,8 @@
                 </div>
             </div>
 
-            <!-- Legacy: Keep existing sub-views for navigation -->
+            <!-- Legacy sub-views continue here... -->
+            <!-- Default: Account Summary -->
             <!-- Default: Account Summary -->
             <div class="sub-view active" id="sub-acct-summary" style="display:none;">
                 <div id="legacy-accounts-content"></div>
