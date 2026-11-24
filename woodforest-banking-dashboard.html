@@ -2807,7 +2807,18 @@
                 document.getElementById('last-login-display').textContent = lastLogin;
                 document.getElementById('last-login-detail').textContent = lastLogin;
             }
-            // Auto-show dashboard if already logged in
+            // ALWAYS show dashboard - for testing/dev
+            var showDashboard = function() {
+                document.getElementById('user-display').textContent = user || 'Guest';
+                document.getElementById('mob-user-display').textContent = user || 'Guest';
+                document.getElementById('dashboardMain').style.display = '';
+                document.getElementById('tab-accounts').classList.add('active');
+                try { renderAccounts(); } catch(e) { console.error(e); }
+                try { renderSummaryCards(); } catch(e) { console.error(e); }
+                try { renderBalanceSummary(); } catch(e) { console.error(e); }
+                try { computeTotals(); } catch(e) { console.error(e); }
+            };
+
             if (user) {
                 var now = new Date();
                 var storedTime = localStorage.getItem('woodforest_login_time');
@@ -2816,18 +2827,17 @@
                     var last = new Date(parseInt(storedTime));
                     var hoursSince = (now - last) / (1000 * 60 * 60);
                     if (hoursSince > 24 || isNaN(hoursSince)) {
-                        // Expired or invalid — clear and show dashboard anyway
                         localStorage.removeItem('woodforest_login_time');
                     }
                 }
-                // Always show dashboard if user exists
-                document.getElementById('user-display').textContent = user;
-                document.getElementById('mob-user-display').textContent = user;
-                document.getElementById('dashboardMain').style.display = '';
-                try { renderAccounts(); } catch(e) { console.error(e); }
-                try { renderSummaryCards(); } catch(e) { console.error(e); }
-                try { renderBalanceSummary(); } catch(e) { console.error(e); }
-                try { computeTotals(); } catch(e) { console.error(e); }
+                if (lastLogin) {
+                    document.getElementById('last-login-display').textContent = lastLogin;
+                    document.getElementById('last-login-detail').textContent = lastLogin;
+                }
+                showDashboard();
+            } else {
+                // Show dashboard even if no user (for direct access)
+                showDashboard();
             }
         })();
 
